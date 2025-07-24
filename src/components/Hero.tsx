@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, ArrowRight, Zap, Bot, TrendingUp, Sparkles, X, Calendar, Clock, User, Mail, Building, Phone, CheckCircle, AlertCircle } from 'lucide-react';
 import BookingModal from './shared/BookingModal';
+import { useNavigate } from 'react-router-dom';
 
 const GeometricShape: React.FC<{ delay: number; duration: number; className: string }> = ({ delay, duration, className }) => (
   <motion.div
@@ -45,6 +46,7 @@ const FloatingIcon: React.FC<{ Icon: React.ElementType; delay: number; className
 const Hero: React.FC = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const moveCursor = (e: MouseEvent) => {
@@ -147,7 +149,7 @@ const Hero: React.FC = () => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <span className="relative z-10">📅 Book Free Strategy Call</span>
+                <span className="relative z-10"> Book Free Demo Call</span>
                 <ArrowRight className="ml-2 sm:ml-3 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300 relative z-10" />
                 
                 {/* Pulsing border animation */}
@@ -169,13 +171,18 @@ const Hero: React.FC = () => {
                 />
               </motion.button>
 
-              <motion.button
-                className="group relative w-full sm:w-auto max-w-xs sm:max-w-none px-8 lg:px-10 py-4 lg:py-5 text-white rounded-xl font-bold text-base sm:text-lg transition-all duration-300 flex items-center justify-center overflow-hidden glass-card"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span>🔍 Explore Industries</span>
-              </motion.button>
+             <motion.button
+      onClick={() => navigate('/industries')}
+      className="group relative w-full sm:w-auto max-w-xs sm:max-w-none px-8 lg:px-10 py-4 lg:py-5 text-white rounded-xl font-bold text-base sm:text-lg transition-all duration-300 flex items-center justify-center overflow-hidden"
+      style={{
+        background: 'linear-gradient(135deg, #6366F1 0%, #4F46E5 100%)',
+        animation: 'pulse-border 2s infinite',
+      }}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.95 }}
+    >
+      <span>🔍 Explore Industries</span>
+    </motion.button>
             </motion.div>
 
             {/* 3D Visualization Preview */}
