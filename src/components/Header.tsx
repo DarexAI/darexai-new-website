@@ -96,7 +96,7 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
                   />
                 </div>
                 <span className="text-2xl font-heading font-bold text-gradient">
-                  Dare XAI
+                  Dare xAI
                 </span>
               </motion.div>
             </Link>

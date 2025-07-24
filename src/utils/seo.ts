@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface SEOData {
   title: string;
   description: string;
@@ -305,13 +307,13 @@ export class SEOManager {
           {
             "@type": "Person",
             "name": "Aditya Kumar",
-            "jobTitle": "Co-Founder & CEO",
+            "jobTitle": "Co-Founder",
             "sameAs": "https://www.linkedin.com/in/aditya-kumar-learner/"
           },
           {
             "@type": "Person", 
             "name": "Sanu Shaurya",
-            "jobTitle": "Co-Founder & CTO",
+            "jobTitle": "Co-Founder",
             "sameAs": "https://www.linkedin.com/in/sanu-shaurya-a0194a247/"
           }
         ]
