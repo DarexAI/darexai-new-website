@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSEO, useBreadcrumbs } from '../hooks/useSEO';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Mail, 
@@ -65,6 +66,20 @@ const ContactPage: React.FC = () => {
     }
   ]);
   const [chatInput, setChatInput] = useState('');
+
+  // SEO optimization
+  useSEO({
+    title: 'Contact Dare XAI | Get Started with AI Automation Today | Book Free Demo',
+    description: 'Ready to transform your business with AI automation? Contact Dare XAI for a free consultation. Book your demo, get expert advice on voice calling and WhatsApp automation.',
+    keywords: 'contact dare xai, AI automation consultation, book demo, AI automation experts, business automation contact, voice calling consultation, WhatsApp automation help',
+    canonical: 'https://darexai.com/contact'
+  });
+
+  // Breadcrumb navigation
+  useBreadcrumbs([
+    { name: 'Home', href: '/' },
+    { name: 'Contact', href: '/contact' }
+  ]);
 
   const serviceTypes = [
     { value: 'ai-assistants', label: 'AI Assistants' },

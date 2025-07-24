@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSEO, useBreadcrumbs } from '../hooks/useSEO';
 import { motion } from 'framer-motion';
 import { 
   UserPlus, 
@@ -29,6 +30,20 @@ interface Step {
 
 const HowItWorksPage: React.FC = () => {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+
+  // SEO optimization
+  useSEO({
+    title: 'How AI Automation Works | 3-Step Implementation Process | Dare XAI',
+    description: 'Learn how Dare XAI implements AI automation in just 3 steps: Lead capturing, AI response, and data integration. Voice calling and WhatsApp automation in 5-7 days.',
+    keywords: 'how AI automation works, AI implementation process, automation deployment, voice calling setup, WhatsApp bot implementation, business process automation',
+    canonical: 'https://darexai.com/how-it-works'
+  });
+
+  // Breadcrumb navigation
+  useBreadcrumbs([
+    { name: 'Home', href: '/' },
+    { name: 'How It Works', href: '/how-it-works' }
+  ]);
 
   const steps: Step[] = [
     {

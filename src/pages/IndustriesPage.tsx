@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSEO, useBreadcrumbs } from '../hooks/useSEO';
 import { motion } from 'framer-motion';
 import { 
   Building2, 
@@ -32,6 +33,20 @@ interface Industry {
 const IndustriesPage: React.FC = () => {
   const [hoveredIndustry, setHoveredIndustry] = useState<string | null>(null);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+
+  // SEO optimization
+  useSEO({
+    title: 'AI Automation Solutions by Industry | Real Estate, Healthcare, Education | Dare XAI',
+    description: 'Discover how Dare XAI\'s AI automation transforms real estate, healthcare, education, e-commerce, logistics, and financial services. Industry-specific voice calling and WhatsApp automation.',
+    keywords: 'AI automation by industry, real estate automation, healthcare AI, education technology, e-commerce automation, logistics AI, financial services automation, voice calling by industry, WhatsApp automation solutions',
+    canonical: 'https://darexai.com/industries'
+  });
+
+  // Breadcrumb navigation
+  useBreadcrumbs([
+    { name: 'Home', href: '/' },
+    { name: 'Industries', href: '/industries' }
+  ]);
 
   const industries: Industry[] = [
     {

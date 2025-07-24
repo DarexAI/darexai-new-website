@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useSEO } from '../../hooks/useSEO';
 import { Building2, Stethoscope, GraduationCap, ShoppingBag, Truck, CreditCard, ArrowRight, Users, Quote, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import BookingModal from '../shared/BookingModal';
@@ -373,6 +374,34 @@ const ConversionSection: React.FC = () => {
 };
 
 const EnhancedHomePage: React.FC = () => {
+  // SEO optimization for home page
+  useSEO({
+    title: 'Dare XAI - AI-Powered Business Automation Platform | Automate Smarter, Scale Faster',
+    description: 'Transform your business with Dare XAI\'s enterprise AI automation platform. Voice calling, WhatsApp bots, and workflow automation that works 24/7. Book your free demo today.',
+    keywords: 'AI automation, business automation, artificial intelligence, voice calling automation, WhatsApp bots, workflow automation, sales automation, lead generation, customer support automation, enterprise AI solutions',
+    canonical: 'https://darexai.com/',
+    ogTitle: 'Dare XAI - Revolutionary AI Business Automation Platform',
+    ogDescription: 'Join 500+ enterprises automating their business processes with AI. Voice calling, WhatsApp automation, and intelligent workflows. Increase productivity by 300%.',
+    twitterTitle: 'Dare XAI - AI Business Automation That Actually Works',
+    twitterDescription: 'Transform your business with 24/7 AI voice calling and WhatsApp automation. Setup in 5-7 days. Book your free strategy demo.',
+    schema: {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Dare XAI",
+      "url": "https://darexai.com",
+      "description": "AI-powered business automation platform",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://darexai.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      },
+      "mainEntity": {
+        "@type": "Organization",
+        "@id": "https://darexai.com/#organization"
+      }
+    }
+  });
+
   return (
     <div className="overflow-x-hidden">
       {/* Main Content */}

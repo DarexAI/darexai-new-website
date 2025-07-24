@@ -59,7 +59,7 @@ const HeroSection: React.FC = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           {/* Heading */}
-          <motion.h1
+          <motion.h1 
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight px-4"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -70,7 +70,7 @@ const HeroSection: React.FC = () => {
           </motion.h1>
 
           {/* Subheading - NO top margin on md+ to keep consistent, requires padding top above */}
-          <motion.h2
+          <motion.h2 
             className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-gray-300 mb-8 px-4 text-center"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}

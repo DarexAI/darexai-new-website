@@ -31,6 +31,59 @@
     scroll-behavior: smooth;
   }
 
+  /* SEO and Accessibility Improvements */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Skip to main content link for accessibility */
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: #2563EB;
+    color: white;
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 4px;
+    z-index: 100;
+    transition: top 0.3s;
+  }
+
+  .skip-link:focus {
+    top: 6px;
+  }
+
+  /* Improve focus indicators for accessibility and SEO */
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 2px solid #00FFFF;
+    outline-offset: 2px;
+  }
+
+  /* Print styles for SEO */
+  @media print {
+    .no-print {
+      display: none;
+    }
+    
+    body {
+      background: white !important;
+      color: black !important;
+    }
+    
+    .glass,
+    .glass-card {
+      background: white !important;
+      border: 1px solid #ccc !important;
+      backdrop-filter: none !important;
+    }
+  }
+
   /* Accessibility: Respect user's motion preferences */
   @media (prefers-reduced-motion: reduce) {
     *,
@@ -380,6 +433,34 @@
 
   .animate-glow-pulse {
     animation: glowPulse 1.5s ease-in-out infinite;
+  }
+
+  /* SEO-friendly loading state */
+  .content-loading {
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Optimize for search engine crawlers */
+  .seo-content {
+    line-height: 1.6;
+    font-size: 16px;
+  }
+
+  /* Enhanced link styles for better crawling */
+  a[href^="tel:"],
+  a[href^="mailto:"],
+  a[href^="https://wa.me/"] {
+    color: #2563EB;
+    text-decoration: underline;
+  }
+
+  a[href^="tel:"]:hover,
+  a[href^="mailto:"]:hover,
+  a[href^="https://wa.me/"]:hover {
+    color: #00FFFF;
   }
 
   @keyframes fadeIn {

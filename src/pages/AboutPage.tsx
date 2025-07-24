@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSEO, useBreadcrumbs } from '../hooks/useSEO';
 import { motion } from 'framer-motion';
 import { 
   Zap, 
@@ -21,6 +22,20 @@ import BookingModal from '../components/shared/BookingModal';
 
 const AboutPage: React.FC = () => {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+
+  // SEO optimization
+  useSEO({
+    title: 'About Dare XAI - AI Automation Experts | Our Mission & Team',
+    description: 'Learn about Dare XAI\'s mission to transform 10,000 businesses with AI automation. Meet our founders Aditya Kumar and Sanu Shaurya, and discover our innovative approach.',
+    keywords: 'about dare xai, AI automation company, enterprise AI solutions, automation experts, AI team, business transformation, Aditya Kumar, Sanu Shaurya',
+    canonical: 'https://darexai.com/about'
+  });
+
+  // Breadcrumb navigation
+  useBreadcrumbs([
+    { name: 'Home', href: '/' },
+    { name: 'About', href: '/about' }
+  ]);
 
   const stats = [
     { value: '10,000+', label: 'Businesses to Transform', icon: Target },

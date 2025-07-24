@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSEO, useBreadcrumbs } from '../hooks/useSEO';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   HelpCircle, 
@@ -26,6 +27,20 @@ const FAQPage: React.FC = () => {
   const [openFAQ, setOpenFAQ] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+
+  // SEO optimization with FAQ schema
+  useSEO({
+    title: 'AI Automation FAQ | Common Questions Answered | Dare XAI',
+    description: 'Get answers to frequently asked questions about AI automation, voice calling, WhatsApp bots, implementation, pricing, and support. Everything you need to know.',
+    keywords: 'AI automation FAQ, automation questions, voice calling FAQ, WhatsApp bot questions, AI implementation help, automation support, AI pricing questions',
+    canonical: 'https://darexai.com/faq'
+  });
+
+  // Breadcrumb navigation
+  useBreadcrumbs([
+    { name: 'Home', href: '/' },
+    { name: 'FAQ', href: '/faq' }
+  ]);
 
   const faqs: FAQ[] = [
     {

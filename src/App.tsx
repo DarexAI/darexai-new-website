@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { HelmetProvider } from 'react-helmet-async';
 // Import pages
 import EnhancedHomePage from './components/enhanced/EnhancedHomePage';
 import AboutPage from './pages/AboutPage';
@@ -16,6 +17,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import { AnalyticsProvider } from './components/AnalyticsProvider';
 import { GamificationProvider } from './components/gamification/GamificationSystem';
+import SEOHead from './components/SEOHead';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -42,33 +44,36 @@ function App() {
   return (
     <AnalyticsProvider>
       <GamificationProvider>
-        <Router>
-          <div className="min-h-screen bg-dark text-white">
-            <Header
-              onSearch={(query) => console.log('Search:', query)}
-            />
-            
-            <motion.main
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Routes>
-                <Route path="/" element={<EnhancedHomePage />} />
-                <Route path="/about" element={<AboutPage />} />
-                <Route path="/industries" element={<IndustriesPage />} />
-                <Route path="/how-it-works" element={<HowItWorksPage />} />
-                <Route path="/faq" element={<FAQPage />} />
-                <Route path="/contact" element={<ContactPage />} />
-                <Route path="/privacy" element={<PrivacyPolicyPage />} />
-                <Route path="/terms" element={<TermsOfServicePage />} />
-                <Route path="/cookies" element={<CookiePolicyPage />} />
-              </Routes>
-            </motion.main>
+        <HelmetProvider>
+          <Router>
+            <div className="min-h-screen bg-dark text-white">
+              <SEOHead />
+              <Header
+                onSearch={(query) => console.log('Search:', query)}
+              />
+              
+              <motion.main
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                <Routes>
+                  <Route path="/" element={<EnhancedHomePage />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  <Route path="/industries" element={<IndustriesPage />} />
+                  <Route path="/how-it-works" element={<HowItWorksPage />} />
+                  <Route path="/faq" element={<FAQPage />} />
+                  <Route path="/contact" element={<ContactPage />} />
+                  <Route path="/privacy" element={<PrivacyPolicyPage />} />
+                  <Route path="/terms" element={<TermsOfServicePage />} />
+                  <Route path="/cookies" element={<CookiePolicyPage />} />
+                </Routes>
+              </motion.main>
 
-            <Footer />
-          </div>
-        </Router>
+              <Footer />
+            </div>
+          </Router>
+        </HelmetProvider>
       </GamificationProvider>
     </AnalyticsProvider>
   );

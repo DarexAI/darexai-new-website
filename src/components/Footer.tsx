@@ -20,15 +20,15 @@ const Footer: React.FC = () => {
         { name: 'How It Works', href: '/how-it-works' },
         { name: 'FAQ', href: '/faq' },
         { name: 'Contact', href: '/contact' },
-        { name: 'Book Demo', href: '#', onClick: () => setIsBookingOpen(true) }
+        { name: 'Book Demo', href: '/contact' }
       ]
     },
     {
       title: 'Support',
       links: [
-        { name: 'WhatsApp', href: 'https://wa.me/919119267828' },
-        { name: 'Email Support', href: 'mailto:hello@darexai.com' },
-        { name: 'Support', href: 'mailto:support@darexai.com' }
+        { name: 'WhatsApp', href: 'https://wa.me/919119267828', external: true },
+        { name: 'Email Support', href: 'mailto:hello@darexai.com', external: true },
+        { name: 'Support', href: 'mailto:support@darexai.com', external: true }
       ]
     }
   ];
@@ -185,26 +185,43 @@ const handleNewsletterSubmit = async (e: React.FormEvent) => {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.6, delay: (sectionIndex * 0.1) + (linkIndex * 0.05) }}
                     >
-                      <Link
-                        to={link.href}
-                        className="text-[#E6EDF3] hover:text-cyan-400 transition-all duration-300 relative group inline-block text-sm sm:text-base"
-                      >
-                        <motion.span
-                          whileHover={{ scale: 1.05 }}
-                          className="relative z-10"
+                      {link.external ? (
+                        <a
+                          href={link.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#E6EDF3] opacity-70 hover:opacity-100 hover:text-cyan-400 transition-all duration-300 relative group inline-block text-sm sm:text-base"
                         >
-                          {link.name}
-                        </motion.span>
-                        <motion.span 
-                          className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-purple-500 group-hover:w-full transition-all duration-300"
-                          initial={{ width: 0 }}
-                          whileHover={{ width: '100%' }}
-                        />
-                        <motion.div
-                          className="absolute inset-0 bg-cyan-400 opacity-0 group-hover:opacity-10 rounded blur-sm -z-10"
-                          transition={{ duration: 0.3 }}
-                        />
-                      </Link>
+                          <motion.span
+                            whileHover={{ scale: 1.05 }}
+                            className="relative z-10"
+                          >
+                            {link.name}
+                          </motion.span>
+                          <motion.span 
+                            className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all duration-300"
+                            initial={{ width: 0 }}
+                            whileHover={{ width: '100%' }}
+                          />
+                        </a>
+                      ) : (
+                        <Link
+                          to={link.href}
+                          className="text-[#E6EDF3] opacity-70 hover:opacity-100 hover:text-cyan-400 transition-all duration-300 relative group inline-block text-sm sm:text-base"
+                        >
+                          <motion.span
+                            whileHover={{ scale: 1.05 }}
+                            className="relative z-10"
+                          >
+                            {link.name}
+                          </motion.span>
+                          <motion.span 
+                            className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all duration-300"
+                            initial={{ width: 0 }}
+                            whileHover={{ width: '100%' }}
+                          />
+                        </Link>
+                      )}
                     </motion.li>
                   ))}
                 </ul>
