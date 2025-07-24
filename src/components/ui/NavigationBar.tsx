@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import Button from './Button';
+import logoImage from '../../assets/small.jpg'; // Adjust the path based on your logo location
 
 interface NavigationBarProps {
   darkMode?: boolean;
@@ -86,10 +87,11 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 400, damping: 10 }}
           >
-            <div className="relative">
-              <Cpu className="w-8 h-8 text-neon-cyan" />
-              <div className="absolute inset-0 bg-neon-cyan opacity-20 rounded-full blur-lg animate-pulse"></div>
-            </div>
+            <img 
+              src={logoImage} 
+              alt="DareXAI Logo" 
+              className="w-8 h-8 object-contain"
+            />
             <span className="text-2xl font-heading font-bold text-gradient">Dare XAI</span>
           </motion.div>
         </Link>
