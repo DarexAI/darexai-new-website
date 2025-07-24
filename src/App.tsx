@@ -19,17 +19,21 @@ import { AnalyticsProvider } from './components/AnalyticsProvider';
 import { GamificationProvider } from './components/gamification/GamificationSystem';
 import SEOHead from './components/SEOHead';
 
-import { inject } from '@vercel/analytics';
-inject();
-import { SpeedInsights } from "@vercel/speed-insights/next"
-import { Analytics } from "@vercel/analytics/react"
+// import { inject } from '@vercel/analytics';
+// inject();
+// import { SpeedInsights } from "@vercel/speed-insights/next"
+// import { Analytics } from "@vercel/analytics/react"
 
-import { inject } from '@vercel/speed-insights';
-inject();
-import { initializePerformanceOptimizations } from './utils/performanceSEO';
-import { initializeAnalyticsSEO } from './utils/analytics-seo'; 
+// import { inject } from '@vercel/speed-insights';
+// inject();
+// import { initializePerformanceOptimizations } from './utils/performanceSEO';
+// import { initializeAnalyticsSEO } from './utils/analytics-seo'; 
 
 
+// import { Analytics } from "@vercel/analytics/react";
+// import { inject as injectSpeedInsights } from "@vercel/speed-insights";
+// injectSpeedInsights();
+// import './index.css';
 function App() {
   const [loading, setLoading] = useState(true);
 
