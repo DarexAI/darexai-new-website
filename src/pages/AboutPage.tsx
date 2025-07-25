@@ -47,7 +47,7 @@ const AboutPage: React.FC = () => {
   const founders = [
     {
       name: 'Aditya Kumar',
-      role: 'Co-Founder & CEO',
+      role: 'Founder',
       image: 'https://media.licdn.com/dms/image/v2/D4D35AQGEcFTrMdk2kw/profile-framedphoto-shrink_400_400/profile-framedphoto-shrink_400_400/0/1721720703617?e=1753354800&v=beta&t=kvHx9wU1FjPn9wTWB9_W0nsZ88z6Sw0xJsmuH6jgJpI',
       bio: 'AI automation expert with 10+ years in technology, passionate about transforming how businesses operate.',
       linkedin: 'https://www.linkedin.com/in/aditya-kumar-learner/',
@@ -55,7 +55,7 @@ const AboutPage: React.FC = () => {
     },
     {
       name: 'Sanu Shaurya',
-      role: 'Co-Founder & CTO',
+      role: 'Founder',
       image: 'https://media.licdn.com/dms/image/v2/D5603AQH88sQD9CbBwA/profile-displayphoto-shrink_800_800/B56ZXLnvTeGsAc-/0/1742877949415?e=1758153600&v=beta&t=vZhVuqFJXVEp-ydElG8Mz40lRd6XrKCp8RKb6Idbqiw',
       bio: 'Technical leader specializing in AI systems and scalable automation solutions for enterprise growth.',
       linkedin: 'https://www.linkedin.com/in/sanu-shaurya-a0194a247/',
