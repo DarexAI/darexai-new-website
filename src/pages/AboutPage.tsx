@@ -51,7 +51,7 @@ const AboutPage: React.FC = () => {
       image: 'https://iili.io/F8pbZHQ.md.png',
       bio: 'AI automation expert with 10+ years in technology, passionate about transforming how businesses operate.',
       linkedin: 'https://www.linkedin.com/in/aditya-kumar-learner/',
-      email: 'adityaaddylearn@gmail.com'
+      email: 'aditya.kumar@darexai.com'
     },
     {
       name: 'Sanu Shaurya',
