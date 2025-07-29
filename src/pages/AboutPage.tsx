@@ -48,7 +48,7 @@ const AboutPage: React.FC = () => {
     {
       name: 'Aditya Kumar',
       role: 'Founder',
-      image: 'https://media.licdn.com/dms/image/v2/D4D35AQGEcFTrMdk2kw/profile-framedphoto-shrink_400_400/profile-framedphoto-shrink_400_400/0/1721720703617?e=1753354800&v=beta&t=kvHx9wU1FjPn9wTWB9_W0nsZ88z6Sw0xJsmuH6jgJpI',
+      image: 'https://iili.io/F8pbZHQ.md.png',
       bio: 'AI automation expert with 10+ years in technology, passionate about transforming how businesses operate.',
       linkedin: 'https://www.linkedin.com/in/aditya-kumar-learner/',
       email: 'adityaaddylearn@gmail.com'
