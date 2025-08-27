@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [react()],
   define: {
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+    global: 'globalThis',
   },
   optimizeDeps: {
     include: ['framer-motion', 'lucide-react', '@supabase/supabase-js'],
@@ -17,10 +18,6 @@ export default defineConfig({
     assetsDir: 'assets',
     assetsInlineLimit: 4096, // 4kb
     rollupOptions: {
-      external: (id) => {
-        // Exclude problematic native dependencies
-        return id.includes('@rollup/rollup-') && id.includes('-gnu');
-      },
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom', 'react-router-dom'],
