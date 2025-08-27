@@ -9,11 +9,6 @@ import {
   Scissors, 
   Truck, 
   CreditCard,
-  Phone,
-  MessageSquare,
-  Clock,
-  Users,
-  TrendingUp,
   ArrowRight,
   CheckCircle
 } from 'lucide-react';
@@ -31,7 +26,6 @@ interface Industry {
 }
 
 const IndustriesPage: React.FC = () => {
-  const [hoveredIndustry, setHoveredIndustry] = useState<string | null>(null);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   // SEO optimization
@@ -168,8 +162,6 @@ const IndustriesPage: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                onMouseEnter={() => setHoveredIndustry(industry.id)}
-                onMouseLeave={() => setHoveredIndustry(null)}
                 whileHover={{ scale: 1.02 }}
               >
                 {/* Header */}

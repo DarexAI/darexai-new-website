@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useSEO, useBreadcrumbs } from '../hooks/useSEO';
+import { AnalyticsSEO } from '../utils/analytics-seo';
 import { 
   Search, 
   Filter, 
@@ -67,21 +69,146 @@ const BlogPage: React.FC = () => {
   const [visiblePosts, setVisiblePosts] = useState(6);
   const [isLoading, setIsLoading] = useState(false);
 
+  // SEO optimization
+  useSEO({
+    title: 'AI Automation Blog | Expert Insights & Guides | Dare XAI',
+    description: 'Stay ahead with expert insights on AI automation, case studies, and practical guides. Learn from industry leaders about enterprise automation trends and best practices.',
+    keywords: 'AI automation blog, enterprise AI insights, automation case studies, AI trends, business automation guides, machine learning articles, AI technology news',
+    canonical: 'https://darexai.com/blog'
+  });
+
+  // Breadcrumb navigation
+  useBreadcrumbs([
+    { name: 'Home', href: '/' },
+    { name: 'Blog', href: '/blog' }
+  ]);
+
+  // Memoized event handlers for better performance
+  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    
+    // Track search analytics
+    if (query.length > 2) {
+      AnalyticsSEO.trackSiteSearch(query);
+    }
+  }, []);
+
+  const handleCategoryChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+    const category = e.target.value;
+    setSelectedCategory(category);
+    
+    // Track category selection
+    AnalyticsSEO.trackEngagement('blog_category_filter', {
+      category: category,
+      event_label: 'Blog Category Selection'
+    });
+  }, []);
+
+  const handleSortChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortBy(e.target.value);
+  }, []);
+
+  const handleTagClick = useCallback((tag: string) => {
+    const newTag = selectedTag === tag ? '' : tag;
+    setSelectedTag(newTag);
+    
+    // Track tag selection
+    if (newTag) {
+      AnalyticsSEO.trackEngagement('blog_tag_filter', {
+        tag: newTag,
+        event_label: 'Blog Tag Selection'
+      });
+    }
+  }, [selectedTag]);
+
+  const handleClearFilters = useCallback(() => {
+    setSearchQuery('');
+    setSelectedCategory('all');
+    setSelectedTag('');
+  }, []);
+
+  const handleLoadMore = useCallback(() => {
+    setVisiblePosts(prev => Math.min(prev + 3, filteredPosts.length));
+  }, [filteredPosts.length]);
+
+  const handleTagClear = useCallback(() => {
+    setSelectedTag('');
+  }, []);
+
+  const handleCategorySelect = useCallback((categoryId: string) => {
+    setSelectedCategory(categoryId);
+    
+    // Track category selection
+    AnalyticsSEO.trackEngagement('blog_category_filter', {
+      category: categoryId,
+      event_label: 'Blog Category Selection'
+    });
+  }, []);
+
+  const toggleBookmark = useCallback((postId: string) => {
+    setPosts(prev => {
+      const updatedPosts = prev.map(post =>
+        post.id === postId ? { ...post, isBookmarked: !post.isBookmarked } : post
+      );
+      
+      // Track bookmark analytics
+      const post = updatedPosts.find(p => p.id === postId);
+      if (post) {
+        AnalyticsSEO.trackEngagement('blog_post_bookmark', {
+          post_id: postId,
+          post_title: post.title,
+          bookmarked: post.isBookmarked,
+          event_label: 'Blog Post Bookmark'
+        });
+      }
+      
+      return updatedPosts;
+    });
+  }, []);
+
+  const sharePost = useCallback((post: BlogPost, platform: 'linkedin' | 'twitter' | 'link') => {
+    const url = `${window.location.origin}/blog/${post.id}`;
+    const text = `Check out this article: ${post.title}`;
+
+    // Track share analytics
+    AnalyticsSEO.trackEngagement('blog_post_share', {
+      post_id: post.id,
+      post_title: post.title,
+      platform: platform,
+      event_label: 'Blog Post Share'
+    });
+
+    switch (platform) {
+      case 'linkedin':
+        window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`);
+        break;
+      case 'twitter':
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`);
+        break;
+      case 'link':
+        navigator.clipboard.writeText(url);
+        break;
+    }
+  }, []);
+
   const { ref: loadMoreRef, inView } = useInView({
     threshold: 0.1,
     triggerOnce: false,
   });
 
-  const categories: Category[] = [
+  // Memoized categories array
+  const categories: Category[] = useMemo(() => [
     { id: 'all', name: 'All Posts', icon: BarChart3, color: 'neon-cyan', count: 24 },
     { id: 'ai-trends', name: 'AI Trends', icon: TrendingUp, color: 'neon-magenta', count: 8 },
     { id: 'automation', name: 'Automation', icon: Zap, color: 'electric-blue', count: 6 },
     { id: 'case-studies', name: 'Case Studies', icon: Target, color: 'success-green', count: 5 },
     { id: 'tutorials', name: 'Tutorials', icon: Settings, color: 'warning-orange', count: 3 },
     { id: 'insights', name: 'Industry Insights', icon: Brain, color: 'neon-purple', count: 2 }
-  ];
+  ], []);
 
-  const samplePosts: BlogPost[] = [
+  // Memoized sample posts data
+  const samplePosts: BlogPost[] = useMemo(() => [
     {
       id: '1',
       title: 'The Future of AI Automation in Enterprise: 2025 Predictions',
@@ -220,12 +347,29 @@ const BlogPage: React.FC = () => {
       views: 1876,
       likes: 92
     }
-  ];
+  ], []);
+
+  // Memoized utility functions for better performance
+  const formatDate = useCallback((date: Date) => {
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  }, []);
+
+  const getAllTags = useCallback(() => {
+    const allTags = posts.flatMap(post => post.tags);
+    return [...new Set(allTags)];
+  }, [posts]);
 
   useEffect(() => {
     setPosts(samplePosts);
     setFilteredPosts(samplePosts);
-  }, []);
+    
+    // Track page view
+    AnalyticsSEO.trackPageView('/blog', 'AI Automation Blog | Expert Insights & Guides | Dare XAI');
+  }, [samplePosts]);
 
   useEffect(() => {
     let filtered = posts;
@@ -263,6 +407,11 @@ const BlogPage: React.FC = () => {
     }
 
     setFilteredPosts(filtered);
+    
+    // Track search results analytics
+    if (searchQuery && searchQuery.length > 2) {
+      AnalyticsSEO.trackSiteSearch(searchQuery, filtered.length);
+    }
   }, [posts, searchQuery, selectedCategory, selectedTag, sortBy]);
 
   // Infinite scroll
@@ -276,41 +425,6 @@ const BlogPage: React.FC = () => {
     }
   }, [inView, visiblePosts, filteredPosts.length]);
 
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
-
-  const getAllTags = () => {
-    const allTags = posts.flatMap(post => post.tags);
-    return [...new Set(allTags)];
-  };
-
-  const toggleBookmark = (postId: string) => {
-    setPosts(prev => prev.map(post =>
-      post.id === postId ? { ...post, isBookmarked: !post.isBookmarked } : post
-    ));
-  };
-
-  const sharePost = (post: BlogPost, platform: 'linkedin' | 'twitter' | 'link') => {
-    const url = `${window.location.origin}/blog/${post.id}`;
-    const text = `Check out this article: ${post.title}`;
-
-    switch (platform) {
-      case 'linkedin':
-        window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`);
-        break;
-      case 'twitter':
-        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`);
-        break;
-      case 'link':
-        navigator.clipboard.writeText(url);
-        break;
-    }
-  };
 
   return (
     <div className="pt-24 pb-12">
@@ -413,7 +527,7 @@ const BlogPage: React.FC = () => {
               <div className="mt-6 pt-6 border-t border-glass-border">
                 <div className="flex flex-wrap gap-2">
                   <button
-                    onClick={() => setSelectedTag('')}
+                    onClick={handleTagClear}
                     className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-300 ${
                       !selectedTag 
                         ? 'bg-neon-cyan text-dark' 

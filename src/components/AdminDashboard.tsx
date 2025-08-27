@@ -7,8 +7,6 @@ import {
   Clock, 
   TrendingUp, 
   Download,
-  Filter,
-  Calendar,
   Globe,
   Smartphone,
   Monitor,

@@ -6,7 +6,6 @@ import {
   Phone, 
   MapPin, 
   Send, 
-  Calendar,
   Clock,
   CheckCircle,
   AlertCircle,
@@ -14,22 +13,14 @@ import {
   MessageSquare,
   Linkedin,
   Twitter,
-  Github,
-  ChevronDown,
+  Github
 } from 'lucide-react';
 
 import { supabase} from '../utils/supabase';
 interface FormData {
   name: string;
   email: string;
-  company: string;
-  serviceType: string;
-  projectScope: string;
-  budget: string;
-  contactMethod: string;
   message: string;
-  preferredDate: string;
-  preferredTime: string;
 }
 
 interface ChatMessage {
@@ -43,14 +34,7 @@ const ContactPage: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
-    company: '',
-    serviceType: '',
-    projectScope: '',
-    budget: '',
-    contactMethod: 'email',
-    message: '',
-    preferredDate: '',
-    preferredTime: ''
+    message: ''
   });
 
   const [formErrors, setFormErrors] = useState<Partial<FormData>>({});
@@ -81,30 +65,6 @@ const ContactPage: React.FC = () => {
     { name: 'Contact', href: '/contact' }
   ]);
 
-  const serviceTypes = [
-    { value: 'ai-assistants', label: 'AI Assistants' },
-    { value: 'workflow-automation', label: 'Workflow Automation' },
-    { value: 'custom-projects', label: 'Custom Projects' },
-    { value: 'lead-generation', label: 'Lead Generation' },
-    { value: 'consultation', label: 'General Consultation' }
-  ];
-
-  // const budgetRanges = [
-  //   { value: 'under-10k', label: 'Under $10,000' },
-  //   { value: '10k-50k', label: '$10,000 - $50,000' },
-  //   { value: '50k-100k', label: '$50,000 - $100,000' },
-  //   { value: '100k-500k', label: '$100,000 - $500,000' },
-  //   { value: 'over-500k', label: 'Over $500,000' },
-  //   { value: 'discuss', label: 'Let\'s discuss' }
-  // ];
-
-  // const contactMethods = [
-  //   { value: 'email', label: 'Email', icon: Mail },
-  //   { value: 'phone', label: 'Phone Call', icon: Phone },
-  //   { value: 'video', label: 'Video Call', icon: MessageSquare },
-  //   { value: 'in-person', label: 'In-Person Meeting', icon: User }
-  // ];
-
   const quickResponses = [
     'Tell me about your AI assistants',
     'What\'s the pricing for workflow automation?',
@@ -120,8 +80,6 @@ const ContactPage: React.FC = () => {
     if (!formData.name.trim()) errors.name = 'Name is required';
     if (!formData.email.trim()) errors.email = 'Email is required';
     else if (!/\S+@\S+\.\S+/.test(formData.email)) errors.email = 'Email is invalid';
-    if (!formData.company.trim()) errors.company = 'Company is required';
-    if (!formData.serviceType) errors.serviceType = 'Please select a service type';
     if (!formData.message.trim()) errors.message = 'Message is required';
 
     setFormErrors(errors);
@@ -136,20 +94,11 @@ const handleSubmit = async (e: React.FormEvent) => {
   setIsSubmitting(true);
   setFormErrors({}); // clear previous errors
 
-  // Prepare data to insert - match your Supabase table columns
+  // Prepare simplified data to insert
   const insertData = {
     name: formData.name,
     email: formData.email,
-    company: formData.company,
-    service_type: formData.serviceType,
-    // projectScope is optional (you can send null if empty)
-    project_scope: formData.projectScope || null,
-    budget: formData.budget || null,
-    contact_method: formData.contactMethod || null,
-    preferred_date: formData.preferredDate || null,
-    preferred_time: formData.preferredTime || null,
     message: formData.message,
-    // created_at will be managed by Supabase if you set default to now()
   };
 
   const { data, error } = await supabase.from('contacts').insert([insertData]);
@@ -162,18 +111,11 @@ const handleSubmit = async (e: React.FormEvent) => {
   } else {
     setIsSubmitted(true);
 
-    // Optional: reset form data if you want to clear after submission
+    // Reset form data after submission
     setFormData({
       name: '',
       email: '',
-      company: '',
-      serviceType: '',
-      projectScope: '',
-      budget: '',
-      contactMethod: 'email',
-      message: '',
-      preferredDate: '',
-      preferredTime: ''
+      message: ''
     });
   }
 };
@@ -329,7 +271,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               transition={{ duration: 0.8 }}
             >
               <h2 className="text-3xl font-heading font-bold text-white mb-8">
-                Tell Us About Your <span className="text-gradient">Project</span>
+                Send Us a <span className="text-gradient">Message</span>
               </h2>
 
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -344,12 +286,12 @@ const handleSubmit = async (e: React.FormEvent) => {
                       value={formData.name}
                       onChange={(e) => handleInputChange('name', e.target.value)}
                       className={`w-full px-4 py-3 glass rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 ${
-                        formErrors.name ? 'focus:ring-error-red border-error-red' : 'focus:ring-neon-cyan'
+                        formErrors.name ? 'focus:ring-red-500 border-red-500' : 'focus:ring-blue-500'
                       }`}
                       placeholder="Enter your full name"
                     />
                     {formErrors.name && (
-                      <p className="text-error-red text-sm mt-1 flex items-center">
+                      <p className="text-red-400 text-sm mt-1 flex items-center">
                         <AlertCircle className="w-4 h-4 mr-1" />
                         {formErrors.name}
                       </p>
@@ -365,12 +307,12 @@ const handleSubmit = async (e: React.FormEvent) => {
                       value={formData.email}
                       onChange={(e) => handleInputChange('email', e.target.value)}
                       className={`w-full px-4 py-3 glass rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 ${
-                        formErrors.email ? 'focus:ring-error-red border-error-red' : 'focus:ring-neon-cyan'
+                        formErrors.email ? 'focus:ring-red-500 border-red-500' : 'focus:ring-blue-500'
                       }`}
                       placeholder="your.email@company.com"
                     />
                     {formErrors.email && (
-                      <p className="text-error-red text-sm mt-1 flex items-center">
+                      <p className="text-red-400 text-sm mt-1 flex items-center">
                         <AlertCircle className="w-4 h-4 mr-1" />
                         {formErrors.email}
                       </p>
@@ -378,112 +320,22 @@ const handleSubmit = async (e: React.FormEvent) => {
                   </div>
                 </div>
 
-                <div>
-                  <label className="block text-white font-medium mb-2">
-                    Company Name *
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.company}
-                    onChange={(e) => handleInputChange('company', e.target.value)}
-                    className={`w-full px-4 py-3 glass rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 ${
-                      formErrors.company ? 'focus:ring-error-red border-error-red' : 'focus:ring-neon-cyan'
-                    }`}
-                    placeholder="Your company name"
-                  />
-                  {formErrors.company && (
-                    <p className="text-error-red text-sm mt-1 flex items-center">
-                      <AlertCircle className="w-4 h-4 mr-1" />
-                      {formErrors.company}
-                    </p>
-                  )}
-                </div>
-
-                {/* Service Selection */}
-                <div>
-                  <label className="block text-white font-medium mb-2">
-                    Service Type *
-                  </label>
-                  <div className="relative">
-                    <select
-                      value={formData.serviceType}
-                      onChange={(e) => handleInputChange('serviceType', e.target.value)}
-                      className={`w-full px-4 py-3 glass rounded-xl text-white focus:outline-none focus:ring-2 transition-all duration-300 appearance-none ${
-                        formErrors.serviceType ? 'focus:ring-error-red border-error-red' : 'focus:ring-neon-cyan'
-                      }`}
-                    >
-                      <option value="">Select a service</option>
-                      {serviceTypes.map(service => (
-                        <option key={service.value} value={service.value} className="bg-dark text-white">
-                          {service.label}
-                        </option>
-                      ))}
-                    </select>
-                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                  </div>
-                  {formErrors.serviceType && (
-                    <p className="text-error-red text-sm mt-1 flex items-center">
-                      <AlertCircle className="w-4 h-4 mr-1" />
-                      {formErrors.serviceType}
-                    </p>
-                  )}
-                </div>
-
-                {/* Project Details */}
-              
-
-                {/* Contact Preference */}
-             
-
-                {/* Calendar Integration */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-white font-medium mb-2">
-                      Preferred Date
-                    </label>
-                    <input
-                      type="date"
-                      value={formData.preferredDate}
-                      onChange={(e) => handleInputChange('preferredDate', e.target.value)}
-                      min={new Date().toISOString().split('T')[0]}
-                      className="w-full px-4 py-3 glass rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-neon-cyan transition-all duration-300"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-white font-medium mb-2">
-                      Preferred Time
-                    </label>
-                    <select
-                      value={formData.preferredTime}
-                      onChange={(e) => handleInputChange('preferredTime', e.target.value)}
-                      className="w-full px-4 py-3 glass rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-neon-cyan transition-all duration-300 appearance-none"
-                    >
-                      <option value="">Select time</option>
-                      <option value="morning" className="bg-dark text-white">Morning (9 AM - 12 PM)</option>
-                      <option value="afternoon" className="bg-dark text-white">Afternoon (12 PM - 5 PM)</option>
-                      <option value="evening" className="bg-dark text-white">Evening (5 PM - 8 PM)</option>
-                    </select>
-                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                  </div>
-                </div>
-
                 {/* Message */}
                 <div>
                   <label className="block text-white font-medium mb-2">
-                    Project Details *
+                    Message *
                   </label>
                   <textarea
                     value={formData.message}
                     onChange={(e) => handleInputChange('message', e.target.value)}
                     rows={6}
                     className={`w-full px-4 py-3 glass rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 resize-none ${
-                      formErrors.message ? 'focus:ring-error-red border-error-red' : 'focus:ring-neon-cyan'
+                      formErrors.message ? 'focus:ring-red-500 border-red-500' : 'focus:ring-blue-500'
                     }`}
-                    placeholder="Tell us about your project, challenges you're facing, and what you hope to achieve with AI automation..."
+                    placeholder="Tell us about your project, challenges you're facing, and what you hope to achieve..."
                   />
                   {formErrors.message && (
-                    <p className="text-error-red text-sm mt-1 flex items-center">
+                    <p className="text-red-400 text-sm mt-1 flex items-center">
                       <AlertCircle className="w-4 h-4 mr-1" />
                       {formErrors.message}
                     </p>
@@ -494,7 +346,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                 <motion.button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full px-8 py-4 bg-gradient-primary text-white rounded-xl font-bold text-lg hover:shadow-glow-cyan transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                  className="w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-bold text-lg hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                   whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
                   whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
                 >

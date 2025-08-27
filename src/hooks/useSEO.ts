@@ -2,6 +2,15 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { SEOManager, SEOData } from '../utils/seo';
 
+// Type declaration for gtag
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
+const gtag = typeof window !== 'undefined' ? window.gtag : undefined;
+
 export const useSEO = (customSEOData?: Partial<SEOData>) => {
   const location = useLocation();
 
@@ -22,7 +31,7 @@ export const useSEO = (customSEOData?: Partial<SEOData>) => {
     window.scrollTo(0, 0);
 
     // Track page view for analytics
-    if (typeof gtag !== 'undefined') {
+    if (gtag) {
       gtag('config', 'GA_MEASUREMENT_ID', {
         page_title: finalSEOData.title,
         page_location: window.location.href
@@ -42,7 +51,7 @@ export const useSEO = (customSEOData?: Partial<SEOData>) => {
       document.title = title;
     },
     
-    addStructuredData: (schema: any) => {
+    addStructuredData: (schema: Record<string, unknown>) => {
       const script = document.createElement('script');
       script.type = 'application/ld+json';
       script.textContent = JSON.stringify(schema);

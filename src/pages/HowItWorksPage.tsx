@@ -1,21 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { useSEO, useBreadcrumbs } from '../hooks/useSEO';
 import { motion } from 'framer-motion';
 import { 
   UserPlus, 
   Bot, 
-  Send, 
-  Database,
-  Phone,
-  MessageSquare,
-  Calendar,
+  Send,
   FileSpreadsheet,
   Globe,
   CheckCircle,
   ArrowRight,
-  Zap,
-  Clock,
-  Users
+  Zap
 } from 'lucide-react';
 import BookingModal from '../components/shared/BookingModal';
 
@@ -31,6 +25,15 @@ interface Step {
 const HowItWorksPage: React.FC = () => {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
 
+  // Memoized handlers for better performance
+  const handleOpenBooking = useCallback(() => {
+    setIsBookingOpen(true);
+  }, []);
+
+  const handleCloseBooking = useCallback(() => {
+    setIsBookingOpen(false);
+  }, []);
+
   // SEO optimization
   useSEO({
     title: 'How AI Automation Works | 3-Step Implementation Process | Dare XAI',
@@ -45,7 +48,8 @@ const HowItWorksPage: React.FC = () => {
     { name: 'How It Works', href: '/how-it-works' }
   ]);
 
-  const steps: Step[] = [
+  // Memoized data arrays for better performance
+  const steps: Step[] = useMemo(() => [
     {
       id: 1,
       title: 'Lead Enters',
@@ -87,33 +91,32 @@ const HowItWorksPage: React.FC = () => {
         'Collects requirements',
         'Handles price negotiations'
       ]
-    },
-    {
-      id: 4,
-      title: 'Data Pushed to Sheets or CRM',
-      description: 'No manual logging needed',
-      icon: Database,
-      color: 'from-orange-500 to-amber-600',
-      details: [
-        'Auto-updates Google Sheets',
-        'Syncs with existing CRM',
-        'Creates detailed lead profiles',
-        'Tracks conversation history',
-        'Generates daily reports'
-      ]
     }
-  ];
+  ], []);
 
-  const features = [
+  // Features data
+  const features = useMemo(() => [
     { icon: FileSpreadsheet, text: 'Works with Google Sheets' },
     { icon: Globe, text: 'Speaks Hindi, Tamil, Marathi' },
     { icon: Zap, text: 'No tech skills needed' }
-  ];
+  ], []);
+
+  // Validate that we have the required data
+  if (!steps || steps.length === 0) {
+    return (
+      <div className="pt-24 pb-12 flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-white mb-4">Loading...</h1>
+          <p className="text-gray-400">Please wait while we load the content.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="pt-24 pb-12">
+    <main className="pt-24 pb-12">
       {/* Hero Section */}
-      <section className="py-20 relative overflow-hidden">
+      <section className="py-20 relative overflow-hidden" aria-labelledby="hero-heading">
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-br from-ai-blue/10 via-transparent to-ai-purple/10"></div>
         </div>
@@ -129,11 +132,11 @@ const HowItWorksPage: React.FC = () => {
               className="inline-flex items-center glass px-6 py-3 rounded-full mb-6"
               whileHover={{ scale: 1.05 }}
             >
-              <Zap className="w-4 h-4 text-ai-teal mr-2" />
+              <Zap className="w-4 h-4 text-ai-teal mr-2" aria-hidden="true" />
               <span className="text-sm font-medium text-ai-teal">How It Works</span>
             </motion.div>
 
-            <h1 className="text-4xl lg:text-6xl font-heading font-bold mb-6">
+            <h1 id="hero-heading" className="text-4xl lg:text-6xl font-heading font-bold mb-6">
               From Lead to Sale: <span className="text-gradient">How Dare XAI Works</span>
             </h1>
             
@@ -146,7 +149,7 @@ const HowItWorksPage: React.FC = () => {
       </section>
 
       {/* How It Works Steps */}
-      <section className="py-20">
+      <section className="py-20" aria-labelledby="how-it-works-heading">
         <div className="container mx-auto px-4 lg:px-8">
           {/* Process Overview */}
           <motion.div
@@ -155,7 +158,7 @@ const HowItWorksPage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-8">
+            <h2 id="how-it-works-heading" className="text-3xl lg:text-4xl font-bold text-white mb-8">
               The <span className="text-gradient">3-Step Process</span>
             </h2>
           </motion.div>
@@ -163,16 +166,20 @@ const HowItWorksPage: React.FC = () => {
           <div className="max-w-6xl mx-auto">
             {/* Desktop Timeline */}
             <div className="hidden lg:block">
-              <div className="relative">
+              <div className="relative" role="img" aria-label="3-step process timeline">
                 {/* Timeline Line */}
-                <div className="absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 via-emerald-500 to-orange-500 rounded-full transform -translate-y-1/2"></div>
+                <div 
+                  className="absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 via-emerald-500 to-orange-500 rounded-full transform -translate-y-1/2"
+                  aria-hidden="true"
+                ></div>
                 
                 {/* Steps */}
-                <div className="grid grid-cols-4 gap-8 relative z-20">
+                <div className="grid grid-cols-3 gap-8 relative z-20" role="list">
                   {steps.slice(0, 3).map((step, index) => (
                     <motion.div
                       key={step.id}
                       className="text-center"
+                      role="listitem"
                       initial={{ opacity: 0, y: 50 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.8, delay: index * 0.2 }}
@@ -182,10 +189,14 @@ const HowItWorksPage: React.FC = () => {
                       <motion.div
                         className={`relative mx-auto w-20 h-20 glass-card rounded-full flex items-center justify-center mb-6 hover-lift`}
                         whileHover={{ scale: 1.1 }}
+                        aria-label={`Step ${step.id}: ${step.title}`}
                       >
-                        <div className={`absolute inset-0 bg-gradient-to-r ${step.color} opacity-20 rounded-full blur-lg`}></div>
-                        <step.icon className="w-8 h-8 text-white relative z-10" />
-                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-primary text-white text-xs font-bold rounded-full flex items-center justify-center">
+                        <div className={`absolute inset-0 bg-gradient-to-r ${step.color} opacity-20 rounded-full blur-lg`} aria-hidden="true"></div>
+                        <step.icon className="w-8 h-8 text-white relative z-10" aria-hidden="true" />
+                        <div 
+                          className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-primary text-white text-xs font-bold rounded-full flex items-center justify-center"
+                          aria-label={`Step number ${step.id}`}
+                        >
                           {step.id}
                         </div>
                       </motion.div>
@@ -220,11 +231,12 @@ const HowItWorksPage: React.FC = () => {
             </div>
 
             {/* Mobile Timeline */}
-            <div className="lg:hidden space-y-8">
+            <div className="lg:hidden space-y-8" role="list" aria-label="3-step process for mobile">
               {steps.slice(0, 3).map((step, index) => (
                 <motion.div
                   key={step.id}
                   className="relative"
+                  role="listitem"
                   initial={{ opacity: 0, x: -50 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, delay: index * 0.2 }}
@@ -232,7 +244,10 @@ const HowItWorksPage: React.FC = () => {
                 >
                   {/* Connector Line */}
                   {index < 2 && (
-                    <div className="absolute left-10 top-20 w-0.5 h-16 bg-gradient-to-b from-ai-blue to-ai-purple opacity-30"></div>
+                    <div 
+                      className="absolute left-10 top-20 w-0.5 h-16 bg-gradient-to-b from-ai-blue to-ai-purple opacity-30"
+                      aria-hidden="true"
+                    ></div>
                   )}
 
                   <div className="flex items-start space-x-6">
@@ -280,7 +295,7 @@ const HowItWorksPage: React.FC = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-gradient-to-r from-ai-blue/5 to-ai-purple/5">
+      <section className="py-20 bg-gradient-to-r from-ai-blue/5 to-ai-purple/5" aria-labelledby="features-heading">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             className="text-center mb-12"
@@ -289,16 +304,17 @@ const HowItWorksPage: React.FC = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">
+            <h2 id="features-heading" className="text-3xl lg:text-4xl font-bold text-white mb-6">
               Why Businesses <span className="text-gradient">Choose Dare XAI</span>
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto" role="list">
             {features.map((feature, index) => (
               <motion.div
                 key={index}
                 className="glass-card p-8 rounded-xl text-center hover-lift"
+                role="listitem"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -306,7 +322,7 @@ const HowItWorksPage: React.FC = () => {
                 whileHover={{ scale: 1.05 }}
               >
                 <div className="w-16 h-16 bg-gradient-primary rounded-xl flex items-center justify-center mx-auto mb-6">
-                  <feature.icon className="w-8 h-8 text-white" />
+                  <feature.icon className="w-8 h-8 text-white" aria-hidden="true" />
                 </div>
                 <h3 className="text-lg font-bold text-white mb-3">{feature.text}</h3>
                 <div className="w-12 h-1 bg-gradient-primary rounded-full mx-auto"></div>
@@ -317,7 +333,7 @@ const HowItWorksPage: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20">
+      <section className="py-20" aria-labelledby="cta-heading">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             className="glass-card p-12 rounded-3xl text-center max-w-4xl mx-auto"
@@ -326,7 +342,7 @@ const HowItWorksPage: React.FC = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">
+            <h2 id="cta-heading" className="text-3xl lg:text-4xl font-bold text-white mb-6">
               Ready to See This in <span className="text-gradient">Action?</span>
             </h2>
             <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
@@ -337,8 +353,8 @@ const HowItWorksPage: React.FC = () => {
               className="px-10 py-5 bg-gradient-primary text-white rounded-xl font-bold text-lg hover:shadow-glow-blue transition-all duration-300 flex items-center mx-auto"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setIsBookingOpen(true)}
-              onClick={() => setIsBookingOpen(true)}
+              onClick={handleOpenBooking}
+              aria-label="Book a free demo to see Dare XAI in action"
             >
               Book Free Demo to See It in Action
               <ArrowRight className="ml-3 w-5 h-5" />
@@ -350,9 +366,9 @@ const HowItWorksPage: React.FC = () => {
       {/* Booking Modal */}
       <BookingModal 
         isOpen={isBookingOpen} 
-        onClose={() => setIsBookingOpen(false)} 
+        onClose={handleCloseBooking} 
       />
-    </div>
+    </main>
   );
 };
 

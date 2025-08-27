@@ -11,11 +11,8 @@ import {
   Quote,
   ArrowRight,
   Linkedin,
-  Twitter,
   Mail,
-  TrendingUp,
   Award,
-  CheckCircle,
   Clock
 } from 'lucide-react';
 import BookingModal from '../components/shared/BookingModal';

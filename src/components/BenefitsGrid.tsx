@@ -9,7 +9,6 @@ import {
   Settings,
   Shield,
   TrendingUp,
-  Target,
   Sparkles
 } from 'lucide-react';
 

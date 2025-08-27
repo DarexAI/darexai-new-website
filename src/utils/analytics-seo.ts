@@ -2,8 +2,8 @@
 
 declare global {
   interface Window {
-    gtag: (...args: any[]) => void;
-    dataLayer: any[];
+    gtag?: (...args: unknown[]) => void;
+    dataLayer: unknown[];
   }
 }
 
@@ -90,11 +90,13 @@ export class AnalyticsSEO {
       const entries = list.getEntries();
       const lastEntry = entries[entries.length - 1];
       
-      window.gtag('event', 'core_web_vitals', {
-        event_category: 'Web Vitals',
-        event_label: 'LCP',
-        value: Math.round(lastEntry.startTime)
-      });
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'core_web_vitals', {
+          event_category: 'Web Vitals',
+          event_label: 'LCP',
+          value: Math.round(lastEntry.startTime)
+        });
+      }
     });
     lcpObserver.observe({ type: 'largest-contentful-paint', buffered: true });
 
@@ -102,11 +104,13 @@ export class AnalyticsSEO {
     const fidObserver = new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) {
         const fid = (entry as any).processingStart - (entry as any).startTime;
-        window.gtag('event', 'core_web_vitals', {
-          event_category: 'Web Vitals', 
-          event_label: 'FID',
-          value: Math.round(fid)
-        });
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'core_web_vitals', {
+            event_category: 'Web Vitals', 
+            event_label: 'FID',
+            value: Math.round(fid)
+          });
+        }
       }
     });
     fidObserver.observe({ type: 'first-input', buffered: true });
@@ -122,7 +126,7 @@ export class AnalyticsSEO {
       
       // Send CLS value when page is hidden
       document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
+        if (document.hidden && typeof window.gtag === 'function') {
           window.gtag('event', 'core_web_vitals', {
             event_category: 'Web Vitals',
             event_label: 'CLS', 
@@ -209,11 +213,13 @@ export class AnalyticsSEO {
           if (scrollPercent >= milestone && !trackedMilestones.has(milestone)) {
             trackedMilestones.add(milestone);
             
-            window.gtag('event', 'scroll', {
-              event_category: 'Engagement',
-              event_label: `${milestone}%`,
-              value: milestone
-            });
+            if (typeof window.gtag === 'function') {
+              window.gtag('event', 'scroll', {
+                event_category: 'Engagement',
+                event_label: `${milestone}%`,
+                value: milestone
+              });
+            }
           }
         });
       }

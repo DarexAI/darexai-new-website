@@ -12,6 +12,7 @@ import ContactPage from './pages/ContactPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsOfServicePage from './pages/TermsOfServicePage';
 import CookiePolicyPage from './pages/CookiesPolicyPage';
+import SupabaseTestPage from './pages/SupabaseTestPage';
 // Import components
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -82,6 +83,7 @@ function App() {
                   <Route path="/privacy" element={<PrivacyPolicyPage />} />
                   <Route path="/terms" element={<TermsOfServicePage />} />
                   <Route path="/cookies" element={<CookiePolicyPage />} />
+                  <Route path="/supabase-test" element={<SupabaseTestPage />} />
                 </Routes>
               </motion.main>
 

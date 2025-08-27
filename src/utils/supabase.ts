@@ -1,20 +1,61 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Initialize Supabase client
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+// Initialize Supabase client with validation
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Type guards for environment variables
+function validateEnvironmentVariables(): { url: string; key: string } {
+  if (!supabaseUrl) {
+    throw new Error('Missing VITE_SUPABASE_URL environment variable');
+  }
+
+  if (!supabaseAnonKey) {
+    throw new Error('Missing VITE_SUPABASE_ANON_KEY environment variable');
+  }
+
+  // Validate URL format
+  if (!supabaseUrl.startsWith('https://') || !supabaseUrl.includes('.supabase.co')) {
+    throw new Error('Invalid VITE_SUPABASE_URL format. Expected: https://your-project.supabase.co');
+  }
+
+  // Validate key format (basic length check)
+  if (supabaseAnonKey.length < 100) {
+    console.warn('VITE_SUPABASE_ANON_KEY seems unusually short. Please verify it is correct.');
+  }
+
+  return { url: supabaseUrl, key: supabaseAnonKey };
+}
+
+const { url: validatedUrl, key: validatedKey } = validateEnvironmentVariables();
+
+export const supabase = createClient(validatedUrl, validatedKey, {
+  auth: {
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: true,
+    flowType: 'pkce'
+  },
+  db: {
+    schema: 'public'
+  },
+  global: {
+    headers: {
+      'x-application-name': 'darexai-website'
+    }
+  }
+});
 
 // Demo Request Interface
 export interface DemoRequest {
   id?: string;
   full_name: string;
   email: string;
-  company_name: string;
+  company_name?: string;
+  phone?: string;
   preferred_date?: string;
   preferred_time?: string;
-  description: string;
+  description?: string;
   calendar_event_id?: string;
   status: 'pending' | 'scheduled' | 'completed' | 'cancelled';
   created_at?: string;
@@ -51,6 +92,14 @@ export interface UserPreferences {
 export class DemoRequestService {
   static async createDemoRequest(data: Omit<DemoRequest, 'id' | 'created_at' | 'updated_at'>): Promise<DemoRequest> {
     try {
+      // Validate required fields
+      if (!data.full_name?.trim()) {
+        throw new Error('Full name is required');
+      }
+      if (!data.email?.trim()) {
+        throw new Error('Email is required');
+      }
+
       const { data: result, error } = await supabase
         .from('demo_requests')
         .insert([data])
@@ -62,6 +111,10 @@ export class DemoRequestService {
         throw new Error(`Failed to save demo request: ${error.message}`);
       }
 
+      if (!result) {
+        throw new Error('No data returned from demo request creation');
+      }
+
       return result;
     } catch (error) {
       console.error('Error in createDemoRequest:', error);
@@ -71,6 +124,11 @@ export class DemoRequestService {
 
   static async updateDemoRequest(id: string, updates: Partial<DemoRequest>): Promise<DemoRequest> {
     try {
+      // Validate ID
+      if (!id?.trim()) {
+        throw new Error('Demo request ID is required');
+      }
+
       const { data: result, error } = await supabase
         .from('demo_requests')
         .update({ ...updates, updated_at: new Date().toISOString() })
@@ -81,6 +139,10 @@ export class DemoRequestService {
       if (error) {
         console.error('Error updating demo request:', error);
         throw new Error(`Failed to update demo request: ${error.message}`);
+      }
+
+      if (!result) {
+        throw new Error('Demo request not found or no data returned');
       }
 
       return result;
@@ -111,6 +173,11 @@ export class DemoRequestService {
 
   static async getDemoRequestById(id: string): Promise<DemoRequest> {
     try {
+      // Validate ID
+      if (!id?.trim()) {
+        throw new Error('Demo request ID is required');
+      }
+
       const { data, error } = await supabase
         .from('demo_requests')
         .select('*')
@@ -120,6 +187,10 @@ export class DemoRequestService {
       if (error) {
         console.error('Error retrieving demo request:', error);
         throw new Error(`Failed to retrieve demo request: ${error.message}`);
+      }
+
+      if (!data) {
+        throw new Error('Demo request not found');
       }
 
       return data;
@@ -558,3 +629,20 @@ export class GoogleWorkspaceService {
     }
   }
 }
+
+// Utility function for health checking
+export async function checkSupabaseHealth(): Promise<boolean> {
+  try {
+    const { error } = await supabase.auth.getSession();
+    return !error;
+  } catch {
+    return false;
+  }
+}
+
+// Connection configuration export for debugging
+export const supabaseConfig = {
+  url: validatedUrl,
+  isConfigured: true,
+  timestamp: new Date().toISOString()
+};

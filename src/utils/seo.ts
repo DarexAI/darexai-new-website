@@ -1,5 +1,3 @@
-import React from "react";
-
 export interface SEOData {
   title: string;
   description: string;
@@ -15,7 +13,7 @@ export interface SEOData {
   keywords?: string;
   author?: string;
   robots?: string;
-  schema?: any;
+  schema?: Record<string, unknown>;
 }
 
 export class SEOManager {
@@ -97,7 +95,7 @@ export class SEOManager {
     canonical.href = url;
   }
 
-  private static updateStructuredData(schema: any): void {
+  private static updateStructuredData(schema: Record<string, unknown>): void {
     // Remove existing structured data
     const existingScript = document.querySelector('script[type="application/ld+json"]');
     if (existingScript) {
@@ -553,13 +551,6 @@ export class SEOManager {
     });
   }
 }
-
-// SEO Hook for React components
-export const useSEO = (seoData: SEOData) => {
-  React.useEffect(() => {
-    SEOManager.updatePageSEO(seoData);
-  }, [seoData]);
-};
 
 // Generate meta tags for SSR/Static generation
 export const generateMetaTags = (seoData: SEOData): string => {
