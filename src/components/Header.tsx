@@ -45,6 +45,7 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
     { name: 'About', href: '/about' },
     { name: 'Industries', href: '/industries' },
     { name: 'How It Works', href: '/how-it-works' },
+    { name: 'Lead gen Agent', href: 'https://leadgen.darexai.com/', external: true },
     { name: 'FAQ', href: '/faq' },
     { name: 'Contact', href: '/contact' },
   ];
@@ -112,29 +113,50 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
             <nav className="hidden lg:flex items-center justify-center flex-1 mx-8 h-full">
               <div className="flex items-center space-x-6 xl:space-x-8">
                 {navItems.map((item) => (
-                  <Link 
-                    key={item.name} 
-                    to={item.href}
-                    onClick={() => handleNavClick(item.name, item.href)}
-                  >
-                    <motion.div
-                      className={`transition-colors duration-300 relative group font-medium text-base ${
-                        location.pathname === item.href 
-                          ? 'text-white' 
-                          : 'text-gray-300 hover:text-white'
-                      }`}
-                      whileHover={{ y: -2 }}
-                      transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  item.external ? (
+                    <a 
+                      key={item.name}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => handleNavClick(item.name, item.href)}
                     >
-                      {item.name}
-                      <motion.span 
-                        className={`absolute -bottom-1 left-0 h-0.5 bg-gradient-primary transition-all duration-300 ${
-                          location.pathname === item.href ? 'w-full' : 'w-0 group-hover:w-full'
+                      <motion.div
+                        className="transition-colors duration-300 relative group font-medium text-base text-gray-300 hover:text-white"
+                        whileHover={{ y: -2 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                      >
+                        {item.name}
+                        <motion.span 
+                          className="absolute -bottom-1 left-0 h-0.5 bg-gradient-primary transition-all duration-300 w-0 group-hover:w-full"
+                        />
+                      </motion.div>
+                    </a>
+                  ) : (
+                    <Link 
+                      key={item.name} 
+                      to={item.href}
+                      onClick={() => handleNavClick(item.name, item.href)}
+                    >
+                      <motion.div
+                        className={`transition-colors duration-300 relative group font-medium text-base ${
+                          location.pathname === item.href 
+                            ? 'text-white' 
+                            : 'text-gray-300 hover:text-white'
                         }`}
-                        layoutId="activeNavItem"
-                      />
-                    </motion.div>
-                  </Link>
+                        whileHover={{ y: -2 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                      >
+                        {item.name}
+                        <motion.span 
+                          className={`absolute -bottom-1 left-0 h-0.5 bg-gradient-primary transition-all duration-300 ${
+                            location.pathname === item.href ? 'w-full' : 'w-0 group-hover:w-full'
+                          }`}
+                          layoutId="activeNavItem"
+                        />
+                      </motion.div>
+                    </Link>
+                  )
                 ))}
               </div>
             </nav>
@@ -179,21 +201,37 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
                   {/* Mobile Navigation */}
                   <nav className="space-y-2 sm:space-y-3">
                     {navItems.map((item) => (
-                      <Link
-                        key={item.name}
-                        to={item.href}
-                        className={`block px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg transition-colors duration-300 text-center font-medium text-sm sm:text-base ${
-                          location.pathname === item.href 
-                            ? 'text-white bg-white/10' 
-                            : 'text-gray-300 hover:text-white hover:bg-white/5'
-                        }`}
-                        onClick={() => {
-                          handleNavClick(item.name, item.href);
-                          setIsMobileMenuOpen(false);
-                        }}
-                      >
-                        {item.name}
-                      </Link>
+                      item.external ? (
+                        <a
+                          key={item.name}
+                          href={item.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg transition-colors duration-300 text-center font-medium text-sm sm:text-base text-gray-300 hover:text-white hover:bg-white/5"
+                          onClick={() => {
+                            handleNavClick(item.name, item.href);
+                            setIsMobileMenuOpen(false);
+                          }}
+                        >
+                          {item.name}
+                        </a>
+                      ) : (
+                        <Link
+                          key={item.name}
+                          to={item.href}
+                          className={`block px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg transition-colors duration-300 text-center font-medium text-sm sm:text-base ${
+                            location.pathname === item.href 
+                              ? 'text-white bg-white/10' 
+                              : 'text-gray-300 hover:text-white hover:bg-white/5'
+                          }`}
+                          onClick={() => {
+                            handleNavClick(item.name, item.href);
+                            setIsMobileMenuOpen(false);
+                          }}
+                        >
+                          {item.name}
+                        </Link>
+                      )
                     ))}
                   </nav>
 

@@ -185,6 +185,125 @@ const Hero: React.FC = () => {
     </motion.button>
             </motion.div>
 
+            {/* Product Hunt Badge */}
+            <motion.div
+              className="flex justify-center mb-8 sm:mb-12"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.0 }}
+            >
+              <a 
+                href="https://www.producthunt.com/products/darexai-leadgen-ai-agent-automation?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-darexai&#0045;leadgen&#0045;ai&#0045;automation&#0045;agent" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:scale-105 transition-transform duration-300"
+              >
+                <img 
+                  src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1009419&theme=light&t=1756316758162" 
+                  alt="DarexAI LeadGen AI Automation Agent - Generate unlimited leads & AI-personalized emails instantly | Product Hunt" 
+                  className="w-[250px] h-[54px] object-contain"
+                  width="250" 
+                  height="54" 
+                  loading="lazy"
+                />
+              </a>
+            </motion.div>
+
+            {/* Lead gen Agent CTA Section */}
+            <motion.div
+              className="relative max-w-4xl mx-auto mb-12 sm:mb-16 w-full"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.2 }}
+            >
+              <div className="glass-card p-8 sm:p-10 lg:p-12 rounded-2xl sm:rounded-3xl relative overflow-hidden mx-4 border border-gradient-primary/20">
+                <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-transparent to-blue-500/10"></div>
+                
+                {/* Sparkling Effect */}
+                <motion.div
+                  className="absolute top-4 right-4 text-yellow-400"
+                  animate={{ 
+                    rotate: [0, 360],
+                    scale: [1, 1.2, 1]
+                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  <Sparkles className="w-6 h-6" />
+                </motion.div>
+                
+                <div className="relative z-10 text-center">
+                  <motion.div
+                    className="inline-flex items-center glass px-4 py-2 rounded-full mb-6 bg-green-500/20"
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <Bot className="w-4 h-4 text-green-400 mr-2" />
+                    <span className="text-sm font-medium text-green-400">🚀 NEW: AI Lead Generation</span>
+                  </motion.div>
+
+                  <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+                    Try Our <span className="text-gradient bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">Lead gen Agent</span>
+                  </h3>
+                  
+                  <p className="text-lg sm:text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+                    Generate unlimited leads with AI-personalized emails instantly. 
+                    <br className="hidden sm:block" />
+                    <span className="text-green-400 font-semibold">Test it for FREE right now!</span>
+                  </p>
+
+                  <motion.a
+                    href="https://leadgen.darexai.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative inline-flex items-center justify-center px-8 lg:px-12 py-4 lg:py-6 text-white rounded-xl font-bold text-lg sm:text-xl transition-all duration-300 overflow-hidden"
+                    style={{
+                      background: 'linear-gradient(135deg, #10B981 0%, #3B82F6 100%)',
+                      boxShadow: '0 0 30px rgba(16, 185, 129, 0.3)'
+                    }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <span className="relative z-10 flex items-center">
+                      🎯 Try Lead gen Agent FREE
+                      <ArrowRight className="ml-3 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                    </span>
+                    
+                    {/* Pulsing glow effect */}
+                    <motion.div
+                      className="absolute inset-0 rounded-xl"
+                      style={{
+                        background: 'linear-gradient(135deg, #10B981, #3B82F6)',
+                        filter: 'blur(6px)',
+                      }}
+                      animate={{
+                        scale: [1, 1.05, 1],
+                        opacity: [0.4, 0.7, 0.4],
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    />
+                  </motion.a>
+
+                  <div className="flex items-center justify-center space-x-6 mt-6 text-sm text-gray-400">
+                    <div className="flex items-center">
+                      <CheckCircle className="w-4 h-4 text-green-400 mr-1" />
+                      No signup required
+                    </div>
+                    <div className="flex items-center">
+                      <CheckCircle className="w-4 h-4 text-green-400 mr-1" />
+                      Instant results
+                    </div>
+                    <div className="flex items-center">
+                      <CheckCircle className="w-4 h-4 text-green-400 mr-1" />
+                      100% Free
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
             {/* 3D Visualization Preview */}
             <motion.div
               className="relative max-w-5xl mx-auto mb-12 sm:mb-16 w-full"

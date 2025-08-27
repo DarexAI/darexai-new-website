@@ -8,7 +8,8 @@ export default defineConfig({
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
   },
   optimizeDeps: {
-    include: ['framer-motion', 'lucide-react', '@supabase/supabase-js']
+    include: ['framer-motion', 'lucide-react', '@supabase/supabase-js'],
+    exclude: ['@rollup/rollup-linux-x64-gnu']
   },
   build: {
     target: 'es2015',
@@ -16,6 +17,10 @@ export default defineConfig({
     assetsDir: 'assets',
     assetsInlineLimit: 4096, // 4kb
     rollupOptions: {
+      external: (id) => {
+        // Exclude problematic native dependencies
+        return id.includes('@rollup/rollup-') && id.includes('-gnu');
+      },
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom', 'react-router-dom'],
@@ -28,7 +33,16 @@ export default defineConfig({
     },
     minify: 'esbuild',
     sourcemap: false,
-    reportCompressedSize: false
+    reportCompressedSize: false,
+    chunkSizeWarningLimit: 1000
+  },
+  resolve: {
+    alias: {
+      // Prevent issues with module resolution
+      'node:path': 'path',
+      'node:fs': 'fs',
+      'node:url': 'url'
+    }
   },
   server: {
     host: true
