@@ -19,7 +19,7 @@ interface HeaderProps {
   onSearch?: (query: string) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ user }) => {
+const Header: React.FC<HeaderProps> = ({ onSearch }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isBookingOpen, setIsBookingOpen] = useState(false);

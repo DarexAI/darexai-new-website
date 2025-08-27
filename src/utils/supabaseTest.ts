@@ -15,8 +15,8 @@ export class SupabaseConnectionTest {
     
     try {
       // Test 1: Environment Variables
-      const supabaseUrl = import.meta.env?.VITE_SUPABASE_URL;
-      const supabaseAnonKey = import.meta.env?.VITE_SUPABASE_ANON_KEY;
+      const supabaseUrl = import.meta.env?.VITE_SUPABASE_URL || '';
+      const supabaseAnonKey = import.meta.env?.VITE_SUPABASE_ANON_KEY || '';
       
       // Validate environment variables exist
       if (!supabaseUrl) {

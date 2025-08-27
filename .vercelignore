@@ -41,6 +41,18 @@ storybook-static
 # Testing
 coverage
 
+# Test files that might be interpreted as functions
+supabase-test.js
+test-supabase.js
+build.sh
+
+# Config files
+eslint.config.js
+postcss.config.js
+tailwind.config.js
+vite.config.ts
+tsconfig*.json
+
 # Misc
 *.tgz
 *.tar.gz

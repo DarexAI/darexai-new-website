@@ -105,10 +105,6 @@ const Hero: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="max-w-6xl mx-auto flex flex-col items-center justify-center"
           >
-            <span className="block text-white text-center">Let AI Handle Your Sales Ops —</span>
-            <span className="block text-gradient text-center">So You Can Focus on Closing</span>
-           
-
             {/* Main Headline - H1 */}
             <motion.h1
               className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-center w-full"
@@ -117,7 +113,9 @@ const Hero: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              <span className="block text-white text-center">Automate Smarter.</span>
+              <span className="block text-white text-center">Let AI Handle Your Sales Ops —</span>
+              <span className="block text-gradient text-center">So You Can Focus on Closing</span>
+              <span className="block text-white text-center mt-4">Automate Smarter.</span>
               <span className="block text-gradient text-center">Scale Faster.</span>
             </motion.h1>
 
@@ -144,7 +142,8 @@ const Hero: React.FC = () => {
                 className="group relative w-full sm:w-auto max-w-xs sm:max-w-none px-8 lg:px-10 py-4 lg:py-5 text-white rounded-xl font-bold text-base sm:text-lg transition-all duration-300 flex items-center justify-center overflow-hidden"
                 style={{
                   background: 'linear-gradient(135deg, #6366F1 0%, #4F46E5 100%)',
-                  animation: 'pulse-border 2s infinite'
+                  boxShadow: '0 0 0 0 rgba(99, 102, 241, 0.7)',
+                  animation: 'pulse-shadow 2s infinite'
                 }}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.95 }}
@@ -176,7 +175,8 @@ const Hero: React.FC = () => {
       className="group relative w-full sm:w-auto max-w-xs sm:max-w-none px-8 lg:px-10 py-4 lg:py-5 text-white rounded-xl font-bold text-base sm:text-lg transition-all duration-300 flex items-center justify-center overflow-hidden"
       style={{
         background: 'linear-gradient(135deg, #6366F1 0%, #4F46E5 100%)',
-        animation: 'pulse-border 2s infinite',
+        boxShadow: '0 0 0 0 rgba(99, 102, 241, 0.7)',
+        animation: 'pulse-shadow 2s infinite',
       }}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.95 }}
@@ -197,6 +197,7 @@ const Hero: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:scale-105 transition-transform duration-300"
+                aria-label="View DarexAI on Product Hunt"
               >
                 <img 
                   src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1009419&theme=light&t=1756316758162" 
@@ -255,6 +256,7 @@ const Hero: React.FC = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group relative inline-flex items-center justify-center px-8 lg:px-12 py-4 lg:py-6 text-white rounded-xl font-bold text-lg sm:text-xl transition-all duration-300 overflow-hidden"
+                    aria-label="Try Lead Generation Agent for Free"
                     style={{
                       background: 'linear-gradient(135deg, #10B981 0%, #3B82F6 100%)',
                       boxShadow: '0 0 30px rgba(16, 185, 129, 0.3)'
@@ -289,7 +291,7 @@ const Hero: React.FC = () => {
                   <div className="flex items-center justify-center space-x-6 mt-6 text-sm text-gray-400">
                     <div className="flex items-center">
                       <CheckCircle className="w-4 h-4 text-green-400 mr-1" />
-                      No signup required
+                      No credit card required
                     </div>
                     <div className="flex items-center">
                       <CheckCircle className="w-4 h-4 text-green-400 mr-1" />
@@ -368,18 +370,6 @@ const Hero: React.FC = () => {
 
       {/* Booking Modal */}
       <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
-
-      {/* Custom CSS for pulsing border */}
-      {/* <style jsx>{`
-        @keyframes pulse-border {
-          0%, 100% {
-            box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
-          }
-          50% {
-            box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
-          }
-        }
-      `}</style> */}
     </>
   );
 };

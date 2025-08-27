@@ -223,10 +223,9 @@ const EnhancedFeatures: React.FC = () => {
                 key={index}
                 className="glass p-6 rounded-xl text-center hover-lift group cursor-pointer"
                 whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10, duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
                 <div className="inline-flex items-center justify-center w-12 h-12 glass rounded-lg mb-4 group-hover:glow-purple transition-all duration-300">

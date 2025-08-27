@@ -10,7 +10,6 @@ import Hero from '../Hero';
 
 // How It Works Component
 const HowItWorksSection: React.FC = () => {
-  const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   const steps = [
     {
@@ -84,7 +83,6 @@ const HowItWorksSection: React.FC = () => {
 
 // Industries Preview Component
 const IndustriesPreview: React.FC = () => {
-  const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   const industries = [
     { 
@@ -166,7 +164,11 @@ const IndustriesPreview: React.FC = () => {
               <h3 className="text-xl font-bold text-white mb-3">{industry.name}</h3>
               <p className="text-gray-300 mb-2">{industry.description}</p>
               <p className="text-gray-400 text-sm mb-6">{industry.details}</p>
-              <Link to="/how-it-works#how-it-works">
+              <Link 
+                to="/how-it-works#how-it-works"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <motion.button
                   className="px-6 py-3 glass text-white rounded-xl font-semibold hover:bg-white hover:bg-opacity-10 transition-all duration-300 flex items-center mx-auto"
                   whileHover={{ scale: 1.05 }}
@@ -181,7 +183,11 @@ const IndustriesPreview: React.FC = () => {
         </div>
 
         <div className="text-center">
-          <Link to="/industries">
+          <Link 
+            to="/industries"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <motion.button
               className="px-8 py-4 glass text-white rounded-xl font-bold text-lg hover:bg-white hover:bg-opacity-10 transition-all duration-300"
               whileHover={{ scale: 1.05 }}
@@ -191,12 +197,6 @@ const IndustriesPreview: React.FC = () => {
             </motion.button>
           </Link>
         </div>
-
-        {/* Booking Modal */}
-        <BookingModal 
-          isOpen={isBookingOpen} 
-          onClose={() => setIsBookingOpen(false)} 
-        />
       </div>
     </section>
   );
@@ -312,6 +312,12 @@ const TestimonialSection: React.FC = () => {
             Want results like this? → Book a Demo
           </motion.button>
         </div>
+
+        {/* Booking Modal */}
+        <BookingModal 
+          isOpen={isBookingOpen} 
+          onClose={() => setIsBookingOpen(false)} 
+        />
       </div>
     </section>
   );

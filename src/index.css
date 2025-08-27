@@ -173,6 +173,15 @@
     }
   }
 
+  @keyframes pulse-shadow {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
+    }
+    50% {
+      box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
+    }
+  }
+
   /* Enhanced Micro-interactions */
   .micro-bounce {
     transition: transform 0.15s ease;

@@ -94,29 +94,34 @@ const handleSubmit = async (e: React.FormEvent) => {
   setIsSubmitting(true);
   setFormErrors({}); // clear previous errors
 
-  // Prepare simplified data to insert
-  const insertData = {
-    name: formData.name,
-    email: formData.email,
-    message: formData.message,
-  };
+  try {
+    // Prepare simplified data to insert
+    const insertData = {
+      name: formData.name,
+      email: formData.email,
+      message: formData.message,
+    };
 
-  const { data, error } = await supabase.from('contacts').insert([insertData]);
+    const { data, error } = await supabase.from('contacts').insert([insertData]);
 
-  setIsSubmitting(false);
+    if (error) {
+      console.error('Submission error:', error);
+      setFormErrors({ message: 'Failed to submit form. Please try again later.' });
+    } else {
+      setIsSubmitted(true);
 
-  if (error) {
-    console.error('Submission error:', error);
-    setFormErrors({ message: 'Failed to submit form. Please try again later.' });
-  } else {
-    setIsSubmitted(true);
-
-    // Reset form data after submission
-    setFormData({
-      name: '',
-      email: '',
-      message: ''
-    });
+      // Reset form data after submission
+      setFormData({
+        name: '',
+        email: '',
+        message: ''
+      });
+    }
+  } catch (error) {
+    console.error('Network error:', error);
+    setFormErrors({ message: 'Network error. Please check your connection and try again.' });
+  } finally {
+    setIsSubmitting(false);
   }
 };
 

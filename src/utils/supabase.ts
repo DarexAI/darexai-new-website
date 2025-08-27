@@ -1,8 +1,12 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-// Initialize Supabase client with validation
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+// Initialize Supabase client with validation and proper fallbacks
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+
+// Fallback configuration for development/build environments
+const DEFAULT_SUPABASE_URL = 'https://placeholder.supabase.co';
+const DEFAULT_SUPABASE_KEY = 'placeholder-anon-key';
 
 // Type guards for environment variables
 function validateEnvironmentVariables(): { url: string; key: string } {
@@ -14,37 +18,108 @@ function validateEnvironmentVariables(): { url: string; key: string } {
     throw new Error('Missing VITE_SUPABASE_ANON_KEY environment variable');
   }
 
-  // Validate URL format
-  if (!supabaseUrl.startsWith('https://') || !supabaseUrl.includes('.supabase.co')) {
+  // Validate URL format with null-safe check
+  if (!supabaseUrl || !supabaseUrl.startsWith('https://') || !supabaseUrl.includes('.supabase.co')) {
     throw new Error('Invalid VITE_SUPABASE_URL format. Expected: https://your-project.supabase.co');
   }
 
-  // Validate key format (basic length check)
-  if (supabaseAnonKey.length < 100) {
-    console.warn('VITE_SUPABASE_ANON_KEY seems unusually short. Please verify it is correct.');
+  // Validate key format with null-safe check (basic length check)
+  if (!supabaseAnonKey || supabaseAnonKey.length < 100) {
+    console.warn('VITE_SUPABASE_ANON_KEY seems unusually short or missing. Please verify it is correct.');
   }
 
   return { url: supabaseUrl, key: supabaseAnonKey };
 }
 
-const { url: validatedUrl, key: validatedKey } = validateEnvironmentVariables();
+let supabase: SupabaseClient | any;
 
-export const supabase = createClient(validatedUrl, validatedKey, {
-  auth: {
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: true,
-    flowType: 'pkce'
-  },
-  db: {
-    schema: 'public'
-  },
-  global: {
-    headers: {
-      'x-application-name': 'darexai-website'
+try {
+  const { url: validatedUrl, key: validatedKey } = validateEnvironmentVariables();
+  
+  supabase = createClient(validatedUrl, validatedKey, {
+    auth: {
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: true,
+      flowType: 'pkce'
+    },
+    db: {
+      schema: 'public'
+    },
+    global: {
+      headers: {
+        'x-application-name': 'darexai-website'
+      }
     }
+  });
+} catch (error) {
+  console.warn('Supabase initialization failed:', error);
+  
+  // Try fallback configuration for development environments
+  try {
+    const fallbackUrl = supabaseUrl || DEFAULT_SUPABASE_URL;
+    const fallbackKey = supabaseAnonKey || DEFAULT_SUPABASE_KEY;
+    
+    if (fallbackUrl !== DEFAULT_SUPABASE_URL && fallbackKey !== DEFAULT_SUPABASE_KEY) {
+      supabase = createClient(fallbackUrl, fallbackKey, {
+        auth: {
+          autoRefreshToken: true,
+          persistSession: true,
+          detectSessionInUrl: true,
+          flowType: 'pkce'
+        },
+        db: {
+          schema: 'public'
+        },
+        global: {
+          headers: {
+            'x-application-name': 'darexai-website'
+          }
+        }
+      });
+    } else {
+      throw new Error('No valid Supabase configuration available');
+    }
+  } catch (fallbackError) {
+    console.warn('Fallback Supabase initialization also failed:', fallbackError);
+    
+    // Create a comprehensive mock client for build time
+    supabase = {
+      from: (table: string) => ({
+        insert: (data: any) => Promise.resolve({ 
+          data: null, 
+          error: { message: 'Supabase not configured', code: 'SUPABASE_NOT_CONFIGURED' } 
+        }),
+        select: (columns?: string) => Promise.resolve({ 
+          data: [], 
+          error: null 
+        }),
+        update: (data: any) => Promise.resolve({ 
+          data: null, 
+          error: { message: 'Supabase not configured', code: 'SUPABASE_NOT_CONFIGURED' } 
+        }),
+        eq: (column: string, value: any) => ({
+          select: () => Promise.resolve({ data: [], error: null }),
+          single: () => Promise.resolve({ data: null, error: { message: 'Not found', code: 'PGRST116' } })
+        }),
+        order: (column: string, options?: any) => Promise.resolve({ data: [], error: null }),
+        single: () => Promise.resolve({ data: null, error: { message: 'Not found', code: 'PGRST116' } })
+      }),
+      auth: { 
+        getSession: () => Promise.resolve({ 
+          data: { session: null }, 
+          error: null 
+        }),
+        getUser: () => Promise.resolve({ 
+          data: { user: null }, 
+          error: null 
+        })
+      }
+    };
   }
-});
+}
+
+export { supabase };
 
 // Demo Request Interface
 export interface DemoRequest {
@@ -630,19 +705,32 @@ export class GoogleWorkspaceService {
   }
 }
 
-// Utility function for health checking
-export async function checkSupabaseHealth(): Promise<boolean> {
+// Utility function for health checking with enhanced error handling
+export async function checkSupabaseHealth(): Promise<{ isHealthy: boolean; error?: string }> {
   try {
+    if (!supabase || !supabase.auth) {
+      return { isHealthy: false, error: 'Supabase client not initialized' };
+    }
+    
     const { error } = await supabase.auth.getSession();
-    return !error;
-  } catch {
-    return false;
+    return { 
+      isHealthy: !error, 
+      error: error?.message || (error ? 'Unknown authentication error' : undefined)
+    };
+  } catch (err: any) {
+    return { 
+      isHealthy: false, 
+      error: err?.message || 'Failed to check Supabase health' 
+    };
   }
 }
 
-// Connection configuration export for debugging
+// Connection configuration export for debugging with enhanced information
 export const supabaseConfig = {
-  url: validatedUrl,
-  isConfigured: true,
+  url: supabaseUrl || 'Not configured',
+  isConfigured: !!supabaseUrl && !!supabaseAnonKey,
+  hasValidUrl: supabaseUrl ? supabaseUrl.startsWith('https://') && supabaseUrl.includes('.supabase.co') : false,
+  hasValidKey: supabaseAnonKey ? supabaseAnonKey.length >= 100 : false,
+  environment: import.meta.env.MODE || 'development',
   timestamp: new Date().toISOString()
 };
