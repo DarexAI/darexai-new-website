@@ -9,7 +9,7 @@ export default defineConfig({
     global: 'globalThis',
   },
   optimizeDeps: {
-    include: ['framer-motion', 'lucide-react', '@supabase/supabase-js'],
+    include: ['react', 'react-dom', 'react-router-dom', 'framer-motion', 'lucide-react', '@supabase/supabase-js'],
     exclude: ['@rollup/rollup-linux-x64-gnu']
   },
   build: {
@@ -18,6 +18,7 @@ export default defineConfig({
     assetsDir: 'assets',
     assetsInlineLimit: 4096, // 4kb
     rollupOptions: {
+      external: [],
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom', 'react-router-dom'],
@@ -27,6 +28,10 @@ export default defineConfig({
           seo: ['react-helmet-async']
         }
       }
+    },
+    commonjsOptions: {
+      include: [/node_modules/],
+      transformMixedEsModules: true
     },
     minify: 'esbuild',
     sourcemap: false,
