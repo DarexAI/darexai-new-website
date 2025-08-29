@@ -14,12 +14,17 @@ interface User {
   avatar?: string;
 }
 
-interface HeaderProps {
-  user?: User;
-  onSearch?: (query: string) => void;
+interface NavItem {
+  name: string;
+  href: string;
+  external?: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ onSearch }) => {
+interface HeaderProps {
+  user?: User;
+}
+
+const Header: React.FC<HeaderProps> = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
@@ -40,7 +45,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch }) => {
     setIsMobileMenuOpen(false);
   }, [location, trackPageView]);
 
-  const navItems = [
+  const navItems: NavItem[] = [
     { name: 'Home', href: '/' },
     { name: 'About', href: '/about' },
     { name: 'Industries', href: '/industries' },

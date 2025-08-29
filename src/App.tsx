@@ -48,9 +48,7 @@ function App() {
           <Router>
             <div className="min-h-screen bg-dark text-white">
               <SEOHead />
-              <Header
-                onSearch={(query) => console.log('Search:', query)}
-              />
+              <Header />
               
               <motion.main
                 initial={{ opacity: 0 }}

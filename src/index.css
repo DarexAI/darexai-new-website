@@ -325,6 +325,16 @@
     @apply w-full sm:w-auto max-w-xs sm:max-w-none px-8 py-4 rounded-xl font-bold text-base sm:text-lg transition-all duration-300 flex items-center justify-center;
   }
   
+  /* Ripple effect for buttons */
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(0);
+    animation: ripple-animation 0.6s linear;
+    pointer-events: none;
+  }
+  
   /* Mobile-friendly spacing */
   .space-mobile {
     @apply space-y-3 sm:space-y-4 md:space-y-6;
@@ -448,6 +458,13 @@
     }
     50% { 
       box-shadow: 0 0 20px rgba(160, 32, 240, 0.8), 0 0 30px rgba(160, 32, 240, 0.4);
+    }
+  }
+
+  @keyframes ripple-animation {
+    to {
+      transform: scale(4);
+      opacity: 0;
     }
   }
 

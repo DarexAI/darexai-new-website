@@ -11,9 +11,7 @@ import {
   MessageSquare,
   Linkedin,
   Twitter,
-  Github,
-  User,
-  Building
+  Github
 } from 'lucide-react';
 import { DemoRequestService } from '../utils/supabase';
 import { EmailService } from '../utils/emailService';
@@ -179,13 +177,37 @@ const ContactPage: React.FC = () => {
   };
 
   const getAIResponse = (input: string): string => {
+    const lowerInput = input.toLowerCase();
+    
+    if (lowerInput.includes('pricing') || lowerInput.includes('cost') || lowerInput.includes('price')) {
+      return 'Our pricing is flexible and depends on your specific needs. We offer custom packages starting from $500/month. Would you like me to connect you with our sales team for a detailed quote?';
+    }
+    
+    if (lowerInput.includes('demo') || lowerInput.includes('trial')) {
+      return 'Yes! We offer a 30-day free trial for most of our services. I can help you set that up right now. What specific features are you most interested in testing?';
+    }
+    
+    if (lowerInput.includes('industry') || lowerInput.includes('sector')) {
+      return 'We serve various industries including healthcare, finance, retail, manufacturing, and technology. Each industry has unique AI automation opportunities. What industry are you in?';
+    }
+    
+    if (lowerInput.includes('assistant') || lowerInput.includes('ai') || lowerInput.includes('automation')) {
+      return 'That\'s a great question! Our AI assistants can handle up to 85% of customer inquiries automatically, freeing up your team for more complex tasks. Would you like to schedule a demo to see them in action?';
+    }
+    
+    if (lowerInput.includes('time') || lowerInput.includes('quick') || lowerInput.includes('fast')) {
+      return 'We can typically get you started within 2 weeks. Our rapid deployment process includes setup, training, and go-live support. What\'s your target timeline?';
+    }
+    
+    if (lowerInput.includes('custom') || lowerInput.includes('specific') || lowerInput.includes('tailored')) {
+      return 'We offer custom AI solutions tailored to your industry and specific needs. What particular challenges are you looking to solve with AI automation?';
+    }
+    
+    // Default responses for general queries
     const responses = [
-      'That\'s a great question! Our AI assistants can handle up to 85% of customer inquiries automatically. Would you like to schedule a demo?',
-      'Our workflow automation typically shows ROI within 3 months. I can connect you with our solutions specialist to discuss your specific needs.',
-      'We offer custom AI solutions tailored to your industry. What specific challenges are you looking to solve?',
-      'We can typically get you started within 2 weeks. Our rapid deployment process includes setup, training, and go-live support.',
-      'Yes! We offer a 30-day free trial for most of our services. Would you like me to set that up for you?',
-      'We serve various industries including healthcare, finance, retail, manufacturing, and technology. What industry are you in?'
+      'That\'s an interesting question! Our workflow automation typically shows ROI within 3 months. I can connect you with our solutions specialist to discuss your specific needs.',
+      'Great to hear from you! We specialize in AI automation solutions that can transform your business operations. What specific area would you like to improve?',
+      'Thanks for reaching out! Our team of AI experts can help design the perfect solution for your unique requirements. Would you like to schedule a consultation?'
     ];
     return responses[Math.floor(Math.random() * responses.length)];
   };

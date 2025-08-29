@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Play, ArrowRight, Zap, Bot, TrendingUp, Sparkles, X, Calendar, Clock, User, Mail, Building, Phone, CheckCircle, AlertCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ArrowRight, Zap, Bot, TrendingUp, Sparkles, CheckCircle } from 'lucide-react';
 import BookingModal from './shared/BookingModal';
 import { useNavigate } from 'react-router-dom';
 

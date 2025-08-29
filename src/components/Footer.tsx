@@ -3,6 +3,19 @@ import { motion } from 'framer-motion';
 import { Cpu, Github, Twitter, Linkedin, Mail, Send, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../utils/supabase';
+
+// Type definitions
+interface FooterLink {
+  name: string;
+  href: string;
+  external?: boolean;
+}
+
+interface FooterSection {
+  title: string;
+  links: FooterLink[];
+}
+
 const Footer: React.FC = () => {
   const [email, setEmail] = useState('');
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -10,7 +23,7 @@ const Footer: React.FC = () => {
  const [error, setError] = useState<string | null>(null);
   const currentYear = new Date().getFullYear();
 
-  const footerSections = [
+  const footerSections: FooterSection[] = [
     {
       title: 'Pages',
       links: [
@@ -71,7 +84,7 @@ const handleNewsletterSubmit = async (e: React.FormEvent) => {
     setIsSubmitting(true);
 
     // Insert email into Supabase table
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('newsletter_subscribers')
       .insert([{ email: email.trim().toLowerCase() }]);
 
@@ -356,24 +369,7 @@ const handleNewsletterSubmit = async (e: React.FormEvent) => {
         </motion.div>
       </div>
 
-      {/* CSS for Ripple Effect */}
-      <style jsx>{`
-        .ripple {
-          position: absolute;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.3);
-          transform: scale(0);
-          animation: ripple-animation 0.6s linear;
-          pointer-events: none;
-        }
-
-        @keyframes ripple-animation {
-          to {
-            transform: scale(4);
-            opacity: 0;
-          }
-        }
-      `}</style>
+      {/* CSS for Ripple Effect is handled by CSS classes */}
     </footer>
   );
 };
