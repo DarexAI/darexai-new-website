@@ -1,7 +1,13 @@
 {
   "buildCommand": "npm run build",
+  "installCommand": "npm ci --include=optional",
   "outputDirectory": "dist",
   "framework": "vite",
+  "functions": {
+    "app/api/**/*.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
   "headers": [
     {
       "source": "/manifest.json",

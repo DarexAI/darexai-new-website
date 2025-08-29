@@ -9,8 +9,7 @@ export default defineConfig({
     global: 'globalThis',
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom', 'framer-motion', 'lucide-react', '@supabase/supabase-js'],
-    exclude: ['@rollup/rollup-linux-x64-gnu']
+    include: ['react', 'react-dom', 'react-router-dom', 'framer-motion', 'lucide-react', '@supabase/supabase-js']
   },
   build: {
     target: 'es2015',
