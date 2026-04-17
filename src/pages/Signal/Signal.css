@@ -1,0 +1,403 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+/* ── SIGNAL SECTION ROOT ───────────────────────────── */
+.signal-section {
+    position: relative;
+    width: 100vw;
+    background: transparent;
+    font-family: 'Space Mono', monospace;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* ── SCAN LINE SWEEP ───────────────────────────────── */
+.signal-scan-line {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 1px;
+    background: #076655;
+    opacity: 0;
+    z-index: 99;
+    pointer-events: none;
+    transform: translateY(-10px);
+}
+
+/* ── LEFT DOTTED THREAD ────────────────────────────── */
+.left-dotted-thread {
+    position: absolute;
+    left: 40px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    opacity: 0.4;
+    z-index: 5;
+}
+
+.left-thread-dot {
+    width: 2px;
+    height: 2px;
+    background-color: #076655;
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .left-dotted-thread {
+        display: none;
+    }
+}
+
+/* ── TOP INDEX MARKER ──────────────────────────────── */
+.signal-index {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    z-index: 20;
+    opacity: 0;
+}
+
+.signal-index-text {
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    color: #076655;
+    margin-bottom: 8px;
+}
+
+.signal-index-line {
+    width: 32px;
+    height: 1px;
+    background-color: rgba(7, 102, 85, 0.4);
+}
+
+@media (max-width: 768px) {
+    .signal-index {
+        left: 20px;
+    }
+}
+
+/* ── ACT ONE ───────────────────────────────────────── */
+.act-one {
+    position: relative;
+    width: 100%;
+    min-height: 120vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 25vh;
+}
+
+.who-we-are-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8vh;
+    opacity: 0;
+}
+
+.wwa-line {
+    width: 24px;
+    height: 1px;
+    background-color: rgba(7, 102, 85, 0.5);
+    transform: scaleX(0);
+}
+
+.wwa-text {
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #076655;
+}
+
+/* Main Identity Statement */
+.identity-statement {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 780px;
+    gap: 1.2rem;
+    padding: 0 2rem;
+}
+
+.statement-line {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25em;
+    overflow: hidden;
+    /* For clip reveal */
+}
+
+.statement-word {
+    font-size: clamp(1.8rem, 2.8vw, 2.6rem);
+    font-weight: 400;
+    color: #F0EDE6;
+    transform: translateY(100%);
+    opacity: 0;
+    line-height: 1.2;
+}
+
+/* Systems Problem Yellow Treatment */
+.systems-problem {
+    color: #E3EF26;
+    position: relative;
+}
+
+.pixel-flash {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #E3EF26;
+    right: -12px;
+    bottom: 8px;
+    opacity: 0;
+}
+
+/* Punch Lines */
+.punch-line-container {
+    margin-top: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.punch-line {
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    color: #076655;
+    opacity: 0;
+}
+
+/* Divider Dots */
+.divider-dots {
+    display: flex;
+    gap: 16px;
+    margin-top: 10vh;
+    margin-bottom: 24px;
+}
+
+.divider-dot {
+    width: 4px;
+    height: 4px;
+    background-color: rgba(7, 102, 85, 0.5);
+    opacity: 0;
+}
+
+
+/* ── ACT TWO ───────────────────────────────────────── */
+.act-two {
+    position: relative;
+    width: 100%;
+}
+
+.showcase-pin-wrap {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.showcase-panel {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 8vw;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Service Title - Highlight effect container */
+.service-title-container {
+    position: relative;
+    display: inline-block;
+    max-width: 1200px;
+}
+
+.service-title {
+    font-size: clamp(3rem, 5.5vw, 6rem);
+    font-weight: 800;
+    color: rgba(240, 237, 230, 0.2);
+    /* 20% ghost text base */
+    line-height: 1.1;
+    margin: 0;
+}
+
+.service-title-highlight {
+    position: absolute;
+    inset: 0;
+    font-size: clamp(3rem, 5.5vw, 6rem);
+    font-weight: 800;
+    color: #F0EDE6;
+    line-height: 1.1;
+    white-space: pre-wrap;
+    /* to match line breaks exactly */
+    clip-path: inset(0 100% 0 0);
+    /* The scanner mask */
+}
+
+.service-subtitle {
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 0.18em;
+    color: rgba(240, 237, 230, 0.5);
+    margin-top: 1rem;
+    opacity: 0;
+}
+
+/* Subtitle special targeting */
+.showcase-panel-3 .why-matters-block {
+    margin-top: 2rem;
+    margin-left: 55%;
+    max-width: 320px;
+    text-align: left;
+    opacity: 0;
+}
+
+.why-matters-block p {
+    font-size: 13px;
+    color: rgba(240, 237, 230, 0.55);
+    font-weight: 400;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.why-matters-block .stacked-lines {
+    font-size: 12px;
+    font-weight: 300;
+    color: rgba(240, 237, 230, 0.7);
+    line-height: 1.8;
+}
+
+/* Closing Panel targeting */
+.showcase-panel-6 .service-title {
+    font-size: clamp(4rem, 6vw, 6.5rem);
+}
+
+.showcase-panel-6 .service-title-highlight {
+    font-size: clamp(4rem, 6vw, 6.5rem);
+}
+
+.showcase-panel-6 .closing-statement {
+    font-size: 15px;
+    font-weight: 400;
+    color: rgba(240, 237, 230, 0.6);
+    max-width: 480px;
+    margin: 48px auto 0;
+    text-align: center;
+    opacity: 0;
+}
+
+.showcase-panel-6 .case-studies-cta {
+    margin: 32px auto 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 20px;
+    opacity: 0;
+    text-decoration: none;
+}
+
+.cta-text {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    color: #E3EF26;
+}
+
+.cta-line {
+    width: 20px;
+    height: 1px;
+    background-color: #E3EF26;
+    transition: width 0.3s ease;
+}
+
+.case-studies-cta:hover .cta-line {
+    width: 32px;
+}
+
+/* Panel Alignments */
+.showcase-panel-1 {
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.showcase-panel-1 .service-title-container {
+    text-align: left;
+}
+
+.showcase-panel-1 .service-subtitle {
+    margin-left: 0;
+}
+
+.showcase-panel-2 {
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.showcase-panel-2 .service-title-container {
+    text-align: right;
+}
+
+.showcase-panel-2 .service-subtitle {
+    margin-left: auto;
+    text-align: right;
+}
+
+.showcase-panel-3 {
+    align-items: center;
+    justify-content: center;
+}
+
+.showcase-panel-3 .service-title-container {
+    text-align: center;
+}
+
+.showcase-panel-4 {
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-top: 55vh;
+}
+
+.showcase-panel-4 .service-title-container {
+    text-align: left;
+}
+
+.showcase-panel-5 {
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding-top: 30vh;
+}
+
+.showcase-panel-5 .service-title-container {
+    text-align: right;
+    white-space: nowrap;
+    max-width: none;
+}
+
+.showcase-panel-5 .service-subtitle {
+    margin-left: auto;
+    text-align: right;
+}
+
+.showcase-panel-6 {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.showcase-panel-6 .service-title-container {
+    text-align: center;
+}

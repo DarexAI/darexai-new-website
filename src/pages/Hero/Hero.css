@@ -1,0 +1,455 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+/* ── HERO SECTION ROOT ─────────────────────────────── */
+.hero-section {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: #06231D;
+  font-family: 'Space Mono', monospace;
+}
+
+/* ── CLOUD CONTAINER (full viewport, behind everything) ── */
+.hero-section .container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  padding: 0;
+  margin: 0;
+  z-index: 1;
+  opacity: 0.4;
+  transform: translateY(8%);
+  transition: transform 1600ms ease-out, opacity 1600ms ease-out;
+  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+}
+
+.hero-section .container.settled {
+  opacity: 1;
+  transform: translateY(0%);
+}
+
+/* ── GRAIN OVERLAY ───────────────────────────────────── */
+.hero-section .grain {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* ── SCANLINES ──────────────────────────────────────── */
+.hero-section .scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  pointer-events: none;
+  background: repeating-linear-gradient(to bottom,
+      transparent 0px,
+      transparent 3px,
+      rgba(0, 0, 0, 0.06) 3px,
+      rgba(0, 0, 0, 0.06) 4px);
+}
+
+/* ── STAR FIELD ─────────────────────────────────────── */
+.hero-section .stars-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ── HORIZON GLOW (disabled — caused bright white line) ── */
+.hero-section .cloud-horizon {
+  display: none;
+}
+
+/* ── HERO LAYOUT ────────────────────────────────────── */
+.hero-section .hero-content {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 0;
+  pointer-events: none;
+}
+
+.hero-section .hero-content * {
+  pointer-events: auto;
+}
+
+/* ── CONTEXT LABEL ──────────────────────────────────── */
+.hero-section .context-label {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 3.2rem;
+  margin-top: 2.8rem;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.hero-section .context-label .ctx-line {
+  height: 1px;
+  width: 36px;
+  background: rgba(227, 239, 38, 0.5);
+}
+
+.hero-section .context-label .ctx-text {
+  font-size: 0.58rem;
+  letter-spacing: 0.55em;
+  text-transform: uppercase;
+  color: rgba(227, 239, 38, 0.7);
+}
+
+/* ── WORDMARK BLOCK ─────────────────────────────────── */
+.hero-section .wordmark {
+  padding: 2rem 3.2rem 0;
+  max-width: 72vw;
+}
+
+.hero-section .word-line {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.18em;
+  line-height: 0.92;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.hero-section .word-text {
+  font-size: clamp(4.5rem, 10.5vw, 10rem);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.025em;
+  line-height: 0.92;
+  display: block;
+  text-shadow:
+    0 2px 20px rgba(6, 35, 29, 0.7),
+    0 0 40px rgba(6, 35, 29, 0.5);
+}
+
+.hero-section .word-text.outline {
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(227, 239, 38, 0.6);
+  text-shadow:
+    0 0 15px rgba(227, 239, 38, 0.3),
+    0 0 40px rgba(6, 35, 29, 0.6);
+}
+
+.hero-section .pixel-sq {
+  display: inline-block;
+  width: clamp(8px, 1.1vw, 13px);
+  height: clamp(8px, 1.1vw, 13px);
+  background: #E3EF26;
+  margin-left: 0.12em;
+  margin-bottom: 0.14em;
+  flex-shrink: 0;
+}
+
+/* ── DESCRIPTOR ─────────────────────────────────────── */
+.hero-section .descriptor {
+  padding: 2.2rem 3.2rem 0;
+  max-width: 560px;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.hero-section .descriptor p {
+  font-size: 0.75rem;
+  line-height: 1.85;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.72);
+  text-shadow:
+    0 1px 12px rgba(6, 35, 29, 0.9),
+    0 0 30px rgba(6, 35, 29, 0.7);
+}
+
+/* ── CTA ────────────────────────────────────────────── */
+.hero-section .cta-wrap {
+  padding: 2rem 3.2rem 0;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.hero-section .cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  background: #E3EF26;
+  color: #06231D;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 0.95rem 2rem;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: visible;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.hero-section .cta-btn:hover {
+  background: #fff;
+  transform: translateY(-1px);
+}
+
+.hero-section .cta-btn .arrow {
+  font-size: 0.9em;
+}
+
+/* ── TICKER ─────────────────────────────────────────── */
+.hero-section .ticker-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 36px;
+  z-index: 20;
+  background: rgba(6, 35, 29, 0.85);
+  border-top: 1px solid rgba(227, 239, 38, 0.18);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.hero-section .ticker-bar.show {
+  animation: heroFadeUp 0.5s ease forwards;
+}
+
+.hero-section .ticker-label {
+  flex-shrink: 0;
+  padding: 0 1.2rem;
+  font-size: 0.55rem;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: #E3EF26;
+  border-right: 1px solid rgba(227, 239, 38, 0.25);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.hero-section .ticker-track {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+}
+
+.hero-section .ticker-inner {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  white-space: nowrap;
+  animation: heroTickerScroll 28s linear infinite;
+}
+
+.hero-section .ticker-item {
+  font-size: 0.58rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.38);
+  padding: 0 2.5rem;
+  flex-shrink: 0;
+}
+
+.hero-section .ticker-item .sep {
+  color: rgba(227, 239, 38, 0.5);
+  margin: 0 0.8rem;
+}
+
+@keyframes heroTickerScroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* ── LIVE INDICATOR ─────────────────────────────────── */
+.hero-section .live-pill {
+  position: absolute;
+  bottom: 52px;
+  left: 3.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 20;
+  opacity: 0;
+}
+
+.hero-section .live-pill.show {
+  animation: heroFadeUp 0.5s ease 2.1s forwards;
+}
+
+.hero-section .live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4fffb0;
+  box-shadow: 0 0 8px #4fffb0, 0 0 20px rgba(79, 255, 176, 0.4);
+  animation: heroDotPulse 2s ease-in-out infinite;
+}
+
+.hero-section .live-text {
+  font-size: 0.58rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* ── CORNER BRACKETS ────────────────────────────────── */
+.hero-section .corner {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  z-index: 20;
+  opacity: 0;
+  animation: heroFadeIn 1s ease 1.8s forwards;
+}
+
+.hero-section .corner::before,
+.hero-section .corner::after {
+  content: '';
+  position: absolute;
+  background: rgba(227, 239, 38, 0.3);
+}
+
+.hero-section .corner::before {
+  width: 100%;
+  height: 1px;
+}
+
+.hero-section .corner::after {
+  width: 1px;
+  height: 100%;
+}
+
+.hero-section .corner-tl {
+  top: 14px;
+  left: 14px;
+}
+
+.hero-section .corner-tl::before {
+  top: 0;
+  left: 0;
+}
+
+.hero-section .corner-tl::after {
+  top: 0;
+  left: 0;
+}
+
+.hero-section .corner-tr {
+  top: 14px;
+  right: 14px;
+}
+
+.hero-section .corner-tr::before {
+  top: 0;
+  right: 0;
+}
+
+.hero-section .corner-tr::after {
+  top: 0;
+  right: 0;
+}
+
+.hero-section .corner-bl {
+  bottom: 44px;
+  left: 14px;
+}
+
+.hero-section .corner-bl::before {
+  bottom: 0;
+  left: 0;
+}
+
+.hero-section .corner-bl::after {
+  bottom: 0;
+  left: 0;
+}
+
+.hero-section .corner-br {
+  bottom: 44px;
+  right: 14px;
+}
+
+.hero-section .corner-br::before {
+  bottom: 0;
+  right: 0;
+}
+
+.hero-section .corner-br::after {
+  bottom: 0;
+  right: 0;
+}
+
+/* ── ANIMATIONS ─────────────────────────────────────── */
+@keyframes heroFadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroFadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes heroDotPulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* ── RISING ELEMENT MASK ────────────────────────────── */
+.hero-section .rising-element {
+  --rise-progress: 0;
+  mask-image: linear-gradient(to top,
+      transparent 0%,
+      rgba(0, 0, 0, 0.5) calc(var(--rise-progress) * 30%),
+      black calc(var(--rise-progress) * 60%));
+  -webkit-mask-image: linear-gradient(to top,
+      transparent 0%,
+      rgba(0, 0, 0, 0.5) calc(var(--rise-progress) * 30%),
+      black calc(var(--rise-progress) * 60%));
+}

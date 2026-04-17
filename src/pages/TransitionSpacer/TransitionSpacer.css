@@ -1,0 +1,103 @@
+.transition-spacer-section {
+    height: 40vh;
+    width: 100vw;
+    background-color: #03110E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 5;
+    overflow: hidden;
+}
+
+.ts-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+}
+
+.ts-line {
+    width: 2px;
+    height: 120px;
+    background: linear-gradient(to bottom, transparent, rgba(227, 239, 38, 0.8), transparent);
+    transform-origin: center;
+}
+
+.ts-text {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(1rem, 1.5vw, 1.5rem);
+    font-weight: 400;
+    color: #E3EF26;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin: 0;
+    white-space: nowrap;
+}
+
+/* BELT VARIANT */
+.variant-belt {
+    height: 120px;
+    background-color: #03110E;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: hidden;
+    border-top: 1px solid rgba(227, 239, 38, 0.4);
+    border-bottom: 1px solid rgba(227, 239, 38, 0.4);
+}
+
+.belt-track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    animation: beltScroll 50s linear infinite;
+}
+
+.belt-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #E3EF26;
+    white-space: nowrap;
+    padding-right: 4rem;
+    margin: 0;
+}
+
+@keyframes beltScroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* PUNCHLINE VARIANT */
+.variant-punchline {
+    height: 60vh;
+    background-color: #03110E;
+    background-image: radial-gradient(circle at center, rgba(12, 52, 44, 1) 0%, transparent 60%);
+}
+
+.punchline-container {
+    text-align: center;
+    padding: 0 2rem;
+    max-width: 90vw;
+}
+
+.punchline-text {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(3rem, 7vw, 7rem);
+    font-weight: 800;
+    color: #F0EDE6;
+    letter-spacing: -2px;
+    line-height: 1.1;
+    margin: 0;
+}
+
+.punchline-highlight {
+    color: #E3EF26;
+}

@@ -1,81 +1,46 @@
-import { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { HelmetProvider } from 'react-helmet-async';
-// Import pages
-import EnhancedHomePage from './components/enhanced/EnhancedHomePage';
-import AboutPage from './pages/AboutPage';
-import IndustriesPage from './pages/IndustriesPage';
-import HowItWorksPage from './pages/HowItWorksPage';
-import FAQPage from './pages/FAQPage';
-import ContactPage from './pages/ContactPage';
-import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
-import TermsOfServicePage from './pages/TermsOfServicePage';
-import CookiePolicyPage from './pages/CookiesPolicyPage';
-import SupabaseTestPage from './pages/SupabaseTestPage';
-// Import components
-import Header from './components/Header';
-import Footer from './components/Footer';
-import { AnalyticsProvider } from './components/AnalyticsProvider';
-import { GamificationProvider } from './components/gamification/GamificationSystem';
-import SEOHead from './components/SEOHead';
+import { useEffect } from 'react'
+import Lenis from 'lenis'
+import Hero from './pages/Hero/Hero'
+import Signal from './pages/Signal/Signal'
+import RabbitHole from './pages/RabbitHole/RabbitHole'
+import TransitionSpacer from './pages/TransitionSpacer/TransitionSpacer'
+import Industries from './pages/Industries/Industries'
+import HowItWorks from './pages/HowItWorks/HowItWorks'
+import Contact from './pages/Contact/Contact'
+
 function App() {
-  const [loading, setLoading] = useState(true);
-
   useEffect(() => {
-    // Simple loading simulation
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  }, []);
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+    })
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-dark flex items-center justify-center">
-        <motion.div
-          className="w-16 h-16 border-4 border-ai-blue border-t-transparent rounded-full"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-        />
-      </div>
-    );
-  }
+    function raf(time: number) {
+      lenis.raf(time)
+      requestAnimationFrame(raf)
+    }
+
+    requestAnimationFrame(raf)
+
+    return () => lenis.destroy()
+  }, [])
 
   return (
-    <AnalyticsProvider>
-      <GamificationProvider>
-        <HelmetProvider>
-          <Router>
-            <div className="min-h-screen bg-dark text-white">
-              <SEOHead />
-              <Header />
-              
-              <motion.main
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-              >
-                <Routes>
-                  <Route path="/" element={<EnhancedHomePage />} />
-                  <Route path="/about" element={<AboutPage />} />
-                  <Route path="/industries" element={<IndustriesPage />} />
-                  <Route path="/how-it-works" element={<HowItWorksPage />} />
-                  <Route path="/faq" element={<FAQPage />} />
-                  <Route path="/contact" element={<ContactPage />} />
-                  <Route path="/privacy" element={<PrivacyPolicyPage />} />
-                  <Route path="/terms" element={<TermsOfServicePage />} />
-                  <Route path="/cookies" element={<CookiePolicyPage />} />
-                  <Route path="/supabase-test" element={<SupabaseTestPage />} />
-                </Routes>
-              </motion.main>
-
-              <Footer />
-            </div>
-          </Router>
-        </HelmetProvider>
-      </GamificationProvider>
-    </AnalyticsProvider>
-  );
+    <>
+      <Hero />
+      <Signal />
+      <RabbitHole />
+      <TransitionSpacer text="INDUSTRIES WE IMPACT" variant="belt" />
+      <Industries />
+      <TransitionSpacer text="WORKFLOWS ✕ AUTOMATION ✕ INTELLIGENCE" variant="belt" />
+      <HowItWorks />
+      <TransitionSpacer variant="punchline" />
+      <Contact />
+    </>
+  )
 }
 
-export default App;
+export default App

@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+/* ── NAVBAR ─────────────────────────────────────────── */
+.topbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 4rem;
+    opacity: 0;
+    /* Hero handles entrance animation */
+    will-change: transform, opacity;
+    font-family: 'Space Mono', monospace;
+    background: transparent;
+    border: none;
+    z-index: 100;
+}
+
+/* ── LOGO STAMP ─────────────────────────────────────── */
+.logo-stamp {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-stamp .logo-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 8px rgba(93, 212, 72, 0.35));
+}
+
+.logo-stamp .logo-text-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.logo-stamp .logo-mark {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    color: #E3EF26;
+    text-transform: uppercase;
+}
+
+.logo-stamp .logo-sub {
+    font-size: 0.55rem;
+    letter-spacing: 0.5em;
+    color: rgba(227, 239, 38, 0.45);
+    text-transform: uppercase;
+}
+
+/* ── NAV LINKS ──────────────────────────────────────── */
+.nav {
+    display: flex;
+    gap: 2.4rem;
+    align-items: center;
+}
+
+.nav a {
+    font-size: 0.62rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.42);
+    text-decoration: none;
+    transition: color 0.25s;
+    font-family: 'Space Mono', monospace;
+}
+
+.nav a:hover {
+    color: #E3EF26;
+}
+
+.nav .nav-cta {
+    border: 1px solid rgba(227, 239, 38, 0.4);
+    padding: 0.5rem 1.2rem;
+    color: rgba(227, 239, 38, 0.8);
+    border-radius: 1px;
+    transition: background 0.25s, color 0.25s;
+}
+
+.nav .nav-cta:hover {
+    background: #E3EF26;
+    color: #06231D;
+}

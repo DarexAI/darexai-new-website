@@ -1,0 +1,85 @@
+.industries-section {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-color: #06231D;
+    overflow: hidden;
+}
+
+.industries-canvas-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.industries-canvas-wrap canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.industries-top-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 15vh;
+    background: linear-gradient(to bottom, #06231D 0%, transparent 100%);
+    z-index: 4;
+    pointer-events: none;
+}
+
+.industries-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    background: radial-gradient(circle at center, transparent 30%, rgba(6, 35, 29, 0.95) 100%);
+}
+
+.scroll-blur {
+    backdrop-filter: blur(2px);
+    mask-image: radial-gradient(circle at center, transparent 50%, black 95%);
+    -webkit-mask-image: radial-gradient(circle at center, transparent 50%, black 95%);
+}
+
+.industries-logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    pointer-events: none;
+    text-align: center;
+}
+
+.industries-title {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(4rem, 8vw, 10rem);
+    font-weight: 800;
+    color: #F0EDE6;
+    letter-spacing: -0.04em;
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.8));
+    line-height: 1.1;
+    margin: 0;
+}
+
+.industries-subtitle {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(1rem, 2vw, 2rem);
+    font-weight: 400;
+    color: #E3EF26;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    display: block;
+    margin-top: 1rem;
+    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.8));
+}
