@@ -27,7 +27,7 @@
 
 .case-studies-section {
     display: flex;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     justify-content: center;
     align-items: center;
@@ -385,4 +385,27 @@
 
 .ec-action-btn:hover {
     background-color: #F0EDE6;
+}
+
+@media (max-width: 768px) {
+    .editorial-card {
+        height: 92vh;
+        max-height: none;
+    }
+
+    .ec-body {
+        flex-direction: column;
+        padding: 1.25rem;
+        gap: 1.5rem;
+        overflow-y: auto;
+    }
+
+    .ec-left,
+    .ec-right {
+        width: 100%;
+    }
+
+    .case-studies-section {
+        min-height: 80vh;
+    }
 }

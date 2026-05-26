@@ -1,6 +1,6 @@
 .transition-spacer-section {
     height: 40vh;
-    width: 100vw;
+    width: 100%;
     background-color: #03110E;
     display: flex;
     align-items: center;
@@ -100,4 +100,20 @@
 
 .punchline-highlight {
     color: #E3EF26;
+}
+
+@media (max-width: 768px) {
+    .belt-text {
+        font-size: clamp(1.25rem, 5vw, 2rem);
+    }
+
+    .variant-punchline {
+        height: auto;
+        min-height: 50vh;
+        padding: 3rem 0;
+    }
+
+    .punchline-text {
+        font-size: clamp(1.75rem, 8vw, 3rem);
+    }
 }

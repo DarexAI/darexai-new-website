@@ -8,7 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default function HowItWorks() {
     const containerRef = useRef<HTMLDivElement>(null);
     const scrollerRef = useRef<HTMLDivElement>(null);
-    const progressCounterRef = useRef<HTMLHeadingElement>(null);
+    const progressCounterRef = useRef<HTMLDivElement>(null);
     const progressBarRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -17,37 +17,65 @@ export default function HowItWorks() {
         const progressBar = progressBarRef.current;
         if (!container || !scroller || !progressBar) return;
 
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) {
+            container.classList.add('hiw-static');
+            return;
+        }
+
         const ctx = gsap.context(() => {
-            gsap.to(scroller, {
-                x: () => -(scroller.scrollWidth - window.innerWidth),
-                ease: "none",
-                scrollTrigger: {
-                    trigger: container,
-                    pin: true,
-                    scrub: 1,
-                    end: () => "+=" + (scroller.scrollWidth - window.innerWidth)
-                }
-            });
+            ScrollTrigger.matchMedia({
+                '(min-width: 768px)': () => {
+                    const scrollDistance = () => scroller.scrollWidth - window.innerWidth;
 
-            gsap.fromTo(progressBar,
-                { scaleX: 0 },
-                {
-                    scaleX: 1,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: container,
-                        start: "top top",
-                        end: () => "+=" + (scroller.scrollWidth - window.innerWidth),
-                        scrub: 1,
-                        onUpdate: (self: ScrollTrigger) => {
-                            if (progressCounterRef.current) {
-                                progressCounterRef.current.textContent = String(Math.round(self.progress * 100));
-                            }
+                    gsap.to(scroller, {
+                        x: () => -scrollDistance(),
+                        ease: 'none',
+                        scrollTrigger: {
+                            trigger: container,
+                            pin: true,
+                            scrub: 1,
+                            end: () => '+=' + scrollDistance(),
+                        },
+                    });
+
+                    gsap.fromTo(
+                        progressBar,
+                        { scaleX: 0 },
+                        {
+                            scaleX: 1,
+                            ease: 'none',
+                            scrollTrigger: {
+                                trigger: container,
+                                start: 'top top',
+                                end: () => '+=' + scrollDistance(),
+                                scrub: 1,
+                                onUpdate: (self: ScrollTrigger) => {
+                                    if (progressCounterRef.current) {
+                                        progressCounterRef.current.textContent = String(Math.round(self.progress * 100));
+                                    }
+                                },
+                            },
                         }
-                    }
-                }
-            );
-
+                    );
+                },
+                '(max-width: 767px)': () => {
+                    container.classList.add('hiw-mobile');
+                    const sections = gsap.utils.toArray<HTMLElement>('.hiw-scroller section');
+                    sections.forEach((section) => {
+                        gsap.from(section, {
+                            opacity: 0,
+                            y: 32,
+                            duration: 0.6,
+                            scrollTrigger: {
+                                trigger: section,
+                                start: 'top 88%',
+                                toggleActions: 'play none none reverse',
+                            },
+                        });
+                    });
+                },
+            });
         }, container);
 
         return () => ctx.revert();
@@ -57,20 +85,20 @@ export default function HowItWorks() {
         <div className="hiw-container" ref={containerRef} id="howitworks">
             <div className="hiw-progress-bar" ref={progressBarRef}></div>
 
-            <div className="hiw-progress-counter">
-                <h1 ref={progressCounterRef}>0</h1>
+            <div className="hiw-progress-counter" aria-hidden="true">
+                <div className="hiw-progress-value" ref={progressCounterRef}>0</div>
             </div>
 
             <div className="hiw-scroller" ref={scrollerRef}>
 
                 {/* 1 */}
                 <section className="hiw-intro">
-                    <h1 data-seo-keywords="lead to sale automation, AI lead conversion">From Lead to Sale</h1>
-                    <h2>
-                        How Dare XAI Works: A simple 3-step process that turns your
+                    <h2>From Lead to Sale — AI Lead Conversion Automation</h2>
+                    <p className="hiw-intro-desc">
+                        How Darex AI works: a simple 3-step process that turns your
                         missed calls and delayed responses into automated, intelligent
                         conversations that convert leads 24/7.
-                    </h2>
+                    </p>
                 </section>
 
                 {/* 2 */}
@@ -156,7 +184,7 @@ export default function HowItWorks() {
 
                 {/* 5 */}
                 <section className="hiw-outro">
-                    <h1>Why Businesses Choose Dare XAI</h1>
+                    <h2>Why Businesses Choose Darex AI</h2>
                     <div className="footer-bullets">
                         <span className="badge">Works with Google Sheets</span>
                         <span className="badge">Speaks Regional Languages</span>

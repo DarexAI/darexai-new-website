@@ -1,6 +1,6 @@
 .hiw-container {
     position: relative;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     overflow: hidden;
     background-color: #03110E;
@@ -12,7 +12,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 100vw;
+    width: 100%;
     height: 6px;
     transform: scaleX(0%);
     transform-origin: center left;
@@ -33,7 +33,7 @@
     pointer-events: none;
 }
 
-.hiw-progress-counter h1 {
+.hiw-progress-value {
     font-size: 8rem;
     font-weight: 800;
     margin: 0;
@@ -78,22 +78,22 @@
     border-right: 1px solid rgba(7, 102, 85, 0.3);
 }
 
-.hiw-intro h1 {
+.hiw-intro h2 {
     font-family: 'Space Mono', monospace;
-    font-size: clamp(3rem, 7vw, 8rem);
+    font-size: clamp(2rem, 7vw, 5rem);
     font-weight: 800;
     color: #E3EF26;
-    line-height: 1;
+    line-height: 1.1;
     margin: 0 0 20px 0;
     letter-spacing: -2px;
 }
 
-.hiw-intro h2 {
+.hiw-intro-desc {
     font-family: 'Space Mono', monospace;
-    font-size: clamp(1.2rem, 2vw, 2.5rem);
+    font-size: clamp(1rem, 2vw, 1.5rem);
     font-weight: 400;
-    max-width: 80%;
-    line-height: 1.4;
+    max-width: 90%;
+    line-height: 1.5;
     color: rgba(240, 237, 230, 0.8);
     margin: 0;
 }
@@ -216,11 +216,11 @@ ul.hiw-bullets li::before {
     text-align: center;
 }
 
-.hiw-outro h1 {
+.hiw-outro h2 {
     font-family: 'Space Mono', monospace;
-    font-size: clamp(3rem, 6vw, 7rem);
+    font-size: clamp(2rem, 6vw, 5rem);
     font-weight: 800;
-    line-height: 1;
+    line-height: 1.1;
     margin: 0 0 40px 0;
     letter-spacing: -2px;
 }
@@ -241,5 +241,60 @@ ul.hiw-bullets li::before {
     font-size: 1.1rem;
     font-weight: 600;
     letter-spacing: 0.05em;
-    white-space: nowrap;
+    white-space: normal;
+    text-align: center;
+}
+
+/* Mobile: vertical stack, no horizontal scroll */
+@media (max-width: 767px) {
+    .hiw-container.hiw-mobile,
+    .hiw-container.hiw-static {
+        height: auto;
+        min-height: auto;
+        overflow: visible;
+    }
+
+    .hiw-container.hiw-mobile .hiw-progress-bar,
+    .hiw-container.hiw-mobile .hiw-progress-counter {
+        display: none;
+    }
+
+    .hiw-container.hiw-mobile .hiw-scroller {
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+        transform: none !important;
+    }
+
+    .hiw-container.hiw-mobile .hiw-scroller section {
+        width: 100% !important;
+        height: auto;
+        min-height: auto;
+        padding: 2rem 1.25rem;
+    }
+
+    .hiw-container.hiw-mobile .hiw-about .row {
+        flex-direction: column;
+        height: auto;
+        gap: 1.5rem;
+    }
+
+    .hiw-container.hiw-mobile .hiw-about .img {
+        min-height: 220px;
+    }
+
+    .hiw-container.hiw-mobile .hiw-intro,
+    .hiw-container.hiw-mobile .hiw-outro {
+        width: 100%;
+        padding: 2.5rem 1.25rem;
+    }
+
+    .hiw-progress-value {
+        font-size: 3rem;
+    }
+
+    .hiw-progress-counter {
+        bottom: 1rem;
+        right: 1rem;
+    }
 }

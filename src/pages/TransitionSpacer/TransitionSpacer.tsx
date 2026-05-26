@@ -59,10 +59,10 @@ export default function TransitionSpacer({ text = "MAPPING GLOBAL SCALE", varian
         return (
             <section className="transition-spacer-section variant-punchline" ref={sectionRef}>
                 <div className="punchline-container">
-                    <h1 className="punchline-text">
+                    <h2 className="punchline-text">
                         THE ONLY WAY TO PREDICT <br />
                         <span className="punchline-highlight">THE FUTURE</span> IS TO <span className="punchline-highlight">BUILD IT.</span>
-                    </h1>
+                    </h2>
                 </div>
             </section>
         );

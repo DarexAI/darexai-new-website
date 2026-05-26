@@ -69,3 +69,26 @@
     z-index: 1;
     /* Below the header mask */
 }
+
+@media (max-width: 768px) {
+    .hero-reveal__header {
+        min-height: auto;
+        padding: 3rem 1rem;
+        font-size: clamp(2rem, 10vw, 4rem);
+        line-height: 1.2;
+    }
+
+    .hero-reveal_split_item {
+        min-height: auto;
+    }
+
+    .c-wide-text.-split {
+        white-space: normal;
+        text-align: center;
+        font-size: clamp(2rem, 12vw, 4rem);
+    }
+
+    .hero-reveal__content {
+        margin-top: 0;
+    }
+}

@@ -339,6 +339,7 @@ export default function Hero() {
 
       {/* ── HERO CONTENT ──────────────────────────────── */}
       <div className="hero-content">
+        <h1 className="sr-only">Darex AI — AI Automation Infrastructure for Voice Agents, Conversational AI, and Custom LLMs</h1>
 
         {/* Navbar */}
         <Navbar ref={topbarRef} />

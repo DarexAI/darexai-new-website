@@ -10,12 +10,17 @@ import Contact from './pages/Contact/Contact'
 
 function App() {
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches
+
+    if (prefersReducedMotion) return
+
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: isTouchDevice ? 0.8 : 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
-      smoothWheel: true,
+      smoothWheel: !isTouchDevice,
     })
 
     function raf(time: number) {
@@ -29,7 +34,7 @@ function App() {
   }, [])
 
   return (
-    <>
+    <main id="main-content">
       <Hero />
       <Signal />
       <RabbitHole />
@@ -39,7 +44,7 @@ function App() {
       <HowItWorks />
       <TransitionSpacer variant="punchline" />
       <Contact />
-    </>
+    </main>
   )
 }
 

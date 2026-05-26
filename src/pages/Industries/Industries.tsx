@@ -26,8 +26,10 @@ export default function Industries() {
     const textRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
         // Animation for the text reveal
-        if (textRef.current) {
+        if (!prefersReducedMotion && textRef.current) {
             gsap.fromTo(textRef.current.children,
                 { opacity: 0, y: 50 },
                 {
@@ -211,9 +213,8 @@ export default function Industries() {
 
             {/* DAREX BRAND LOGO OVERLAY */}
             <div className="industries-logo" ref={textRef}>
-                <h1 className="industries-title" data-seo-keywords="Darex AI industries, AI cross-industry, real estate AI, HVAC AI">DAREX AI.</h1>
-  <div style={{display:'none'}}>Darex AI serves industries: real estate, HVAC, e-commerce, government, franchises, restaurants, coaching with AI automation</div>
-                <span className="industries-subtitle">Cross-Industry Dominance</span>
+                <h2 className="industries-title">Darex AI Across Industries</h2>
+                <p className="industries-subtitle">Real estate, HVAC, e-commerce, government, franchises, restaurants & coaching — AI automation built for every vertical.</p>
             </div>
 
             <div className="industries-overlay scroll-blur"></div>

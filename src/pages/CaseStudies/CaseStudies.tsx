@@ -43,7 +43,7 @@ export default function CaseStudies() {
     const dragRef = useRef({ isDragging: false, startX: 0, startY: 0, lastX: 0, lastY: 0 });
 
     useEffect(() => {
-        let driftSpeed = 0.6; // 0.6px per frame basically
+        const driftSpeed = 0.6;
 
         const updateTransform = () => {
             if (sphereRef.current) {
@@ -145,7 +145,10 @@ export default function CaseStudies() {
                             onClick={() => openCard(caseStudies[item.caseIndex])}
                         >
                             <div className="cs-item__image">
-                                <img src={item.src} alt="Case Study" />
+                                <img
+                                    src={item.src}
+                                    alt={`${caseStudies[item.caseIndex].industry} AI automation case study — ${caseStudies[item.caseIndex].headline}`}
+                                />
                             </div>
                         </div>
                     ))}
@@ -169,7 +172,7 @@ export default function CaseStudies() {
                         <div className="ec-body">
                             {/* Left Column Story */}
                             <div className="ec-left">
-                                <h1 className="ec-headline">{activeCase.headline}</h1>
+                                <h2 className="ec-headline">{activeCase.headline}</h2>
                                 <div className="ec-divider"></div>
 
                                 <div className="ec-section-title">THE PROBLEM</div>

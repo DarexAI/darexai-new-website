@@ -1,4 +1,12 @@
 {
+    "redirects": [
+        {
+            "source": "/:path*",
+            "has": [{ "type": "host", "value": "darexai.com" }],
+            "destination": "https://www.darexai.com/:path*",
+            "permanent": true
+        }
+    ],
     "rewrites": [
         {
             "source": "/(.*)",

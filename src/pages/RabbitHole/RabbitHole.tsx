@@ -10,7 +10,10 @@ export default function RabbitHole() {
     const revealRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        let ctx = gsap.context(() => {
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) return;
+
+        const ctx = gsap.context(() => {
             const element = revealRef.current;
             if (!element) return;
 
@@ -22,38 +25,52 @@ export default function RabbitHole() {
 
             const scrollDistance = window.innerHeight;
 
-            // Content scroll up
-            gsap.timeline({
-                scrollTrigger: {
-                    trigger: element,
-                    start: "top top",
-                    end: `+=${scrollDistance}`,
-                    scrub: true
-                }
-            })
-                .fromTo(contentEl, { y: "50%" }, { y: "0%", ease: "none" }, 0.2);
+            ScrollTrigger.matchMedia({
+                '(min-width: 768px)': () => {
+                    gsap.timeline({
+                        scrollTrigger: {
+                            trigger: element,
+                            start: "top top",
+                            end: `+=${scrollDistance}`,
+                            scrub: true
+                        }
+                    })
+                        .fromTo(contentEl, { y: "50%" }, { y: "0%", ease: "none" }, 0.2);
 
-            const tl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: element,
-                    start: "top top",
-                    end: `+=${scrollDistance}`,
-                    scrub: true,
-                    pin: true
-                }
+                    const tl = gsap.timeline({
+                        scrollTrigger: {
+                            trigger: element,
+                            start: "top top",
+                            end: `+=${scrollDistance}`,
+                            scrub: true,
+                            pin: true
+                        }
+                    });
+
+                    tl.fromTo(
+                        heroBox,
+                        { clipPath: "polygon(0 0, 100% 0, 100% 50%, 0 50%, 0 50%, 100% 50%, 100% 100%, 0 100%)" },
+                        { clipPath: "polygon(0 0, 100% 0, 100% 0%, 0 0%, 0 100%, 100% 100%, 100% 100%, 0 100%)", duration: 0.4, ease: "power4.inOut" }
+                    );
+
+                    tl.fromTo(heroHeadings[0], { y: "0%" }, { y: "-30%", ease: "power3.inOut" }, 0);
+                    tl.fromTo(heroHeadings[1], { y: "0%" }, { y: "30%", ease: "power3.inOut" }, 0);
+                },
+                '(max-width: 767px)': () => {
+                    gsap.set(heroBox, { clipPath: 'none' });
+                    gsap.set(contentEl, { y: '0%' });
+                    gsap.from(heroHeadings, {
+                        opacity: 0,
+                        y: 20,
+                        stagger: 0.1,
+                        scrollTrigger: {
+                            trigger: element,
+                            start: 'top 85%',
+                            toggleActions: 'play none none reverse',
+                        },
+                    });
+                },
             });
-
-            // Main clipPath animation - Splitting the screen in half horizontally
-            tl.fromTo(
-                heroBox,
-                { clipPath: "polygon(0 0, 100% 0, 100% 50%, 0 50%, 0 50%, 100% 50%, 100% 100%, 0 100%)" },
-                { clipPath: "polygon(0 0, 100% 0, 100% 0%, 0 0%, 0 100%, 100% 100%, 100% 100%, 0 100%)", duration: 0.4, ease: "power4.inOut" }
-            );
-
-            // Split animations for child items (pulling text up and down)
-            tl.fromTo(heroHeadings[0], { y: "0%" }, { y: "-30%", ease: "power3.inOut" }, 0);
-            tl.fromTo(heroHeadings[1], { y: "0%" }, { y: "30%", ease: "power3.inOut" }, 0);
-
         }, revealRef);
 
         return () => ctx.revert();

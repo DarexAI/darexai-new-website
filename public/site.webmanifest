@@ -1,0 +1,17 @@
+{
+  "name": "Darex AI",
+  "short_name": "Darex AI",
+  "description": "AI automation, voice agents, and custom LLM infrastructure",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#06231D",
+  "theme_color": "#06231D",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

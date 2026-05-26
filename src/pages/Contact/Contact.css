@@ -28,7 +28,7 @@
     border-bottom: 1px solid rgba(7, 102, 85, 0.4);
 }
 
-.contact-header-block h1 {
+.contact-header-block h2 {
     font-size: clamp(3rem, 5vw, 6rem);
     font-weight: 800;
     line-height: 0.95;
@@ -255,5 +255,31 @@
 
     .info-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .contact-header-block,
+    .contact-about-link,
+    .contact-right {
+        padding: 2rem 1.25rem;
+    }
+
+    .contact-header-block h2 {
+        font-size: clamp(2rem, 8vw, 3.5rem);
+    }
+
+    .contact-about-link p {
+        max-width: 100%;
+    }
+
+    .contact-3d-wrapper {
+        min-height: 280px;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-header-block h2 {
+        letter-spacing: -1px;
     }
 }

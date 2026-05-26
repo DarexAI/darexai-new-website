@@ -10,7 +10,10 @@ export default function Signal() {
     const showcaseWrapRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        let ctx = gsap.context(() => {
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) return;
+
+        const ctx = gsap.context(() => {
             /* ── CLOUD DESCENT TRANSITION (Moves UP and OUT) ───────────────── */
             const cloudContainer = document.querySelector('.hero-section .container');
             if (cloudContainer) {
@@ -142,66 +145,69 @@ export default function Signal() {
                 }
             });
 
-            /* ── ACT TWO: SHOWCASE PINNED SCROLL ───────────────────────────── */
-            const panels = gsap.utils.toArray('.showcase-panel') as HTMLElement[];
+            /* ── ACT TWO: SHOWCASE PINNED SCROLL (desktop only) ────────────── */
+            ScrollTrigger.matchMedia({
+                '(min-width: 768px)': () => {
+                    const panels = gsap.utils.toArray('.showcase-panel') as HTMLElement[];
 
-            // We pin the wrapper for 600% viewport height
-            const pinTl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: '.showcase-pin-wrap',
-                    start: 'top top',
-                    end: '+=600%', // 6 panels
-                    pin: true,
-                    scrub: 1,
-                    onLeave: () => {
-                        // Exit pulse on background pixel grid natively
-                        const grain = document.querySelector('.hero-section .grain');
-                        if (grain) {
-                            gsap.fromTo(grain,
-                                { opacity: 0.12 },
-                                { opacity: 0.045, duration: 0.4 }
-                            );
+                    const pinTl = gsap.timeline({
+                        scrollTrigger: {
+                            trigger: '.showcase-pin-wrap',
+                            start: 'top top',
+                            end: '+=600%',
+                            pin: true,
+                            scrub: 1,
+                            onLeave: () => {
+                                const grain = document.querySelector('.hero-section .grain');
+                                if (grain) {
+                                    gsap.fromTo(grain, { opacity: 0.12 }, { opacity: 0.045, duration: 0.4 });
+                                }
+                            },
+                        },
+                    });
+
+                    panels.forEach((panel, i) => {
+                        const title = panel.querySelector('.service-title-container');
+                        const highlight = panel.querySelector('.service-title-highlight');
+                        const subtitle = panel.querySelectorAll('.service-subtitle, .why-matters-block, .closing-statement, .case-studies-cta');
+
+                        let yOffset = 60;
+                        let xOffset = 0;
+                        if (i === 1 || i === 3 || i === 5) {
+                            yOffset = 80;
+                            xOffset = i === 1 ? -20 : 20;
                         }
-                    }
-                }
-            });
 
-            // Build the sequence through the panels
-            panels.forEach((panel, i) => {
-                const title = panel.querySelector('.service-title-container');
-                const highlight = panel.querySelector('.service-title-highlight');
-                const subtitle = panel.querySelectorAll('.service-subtitle, .why-matters-block, .closing-statement, .case-studies-cta');
+                        pinTl.set(panel, { opacity: 1 }, `panel${i}`)
+                            .fromTo(title, { y: yOffset, x: xOffset, opacity: 0 }, { y: 0, x: 0, opacity: 1, duration: 1, ease: 'power2.out' }, `panel${i}`)
+                            .to(highlight, { clipPath: 'inset(0 0% 0 0)', duration: 1.5, ease: 'none' }, `panel${i}+=0.2`);
 
-                // Determine entry directions
-                let yOffset = 60;
-                let xOffset = 0;
+                        if (subtitle.length) {
+                            pinTl.fromTo(subtitle, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'power2.out' }, `panel${i}+=0.3`);
+                        }
 
-                if (i === 1 || i === 3 || i === 5) {
-                    yOffset = 80;
-                    xOffset = i === 1 ? -20 : 20; // right/left slight offset
-                }
-
-                // Add this panel's sequence to the pin timeline
-                // ENTRANCE
-                pinTl.set(panel, { opacity: 1 }, `panel${i}`)
-                    .fromTo(title, { y: yOffset, x: xOffset, opacity: 0 }, { y: 0, x: 0, opacity: 1, duration: 1, ease: 'power2.out' }, `panel${i}`)
-
-                // Highlight scanner mask over the text
-                pinTl.to(highlight, { clipPath: 'inset(0 0% 0 0)', duration: 1.5, ease: 'none' }, `panel${i}+=0.2`);
-
-                // Subtitles lag
-                if (subtitle.length) {
-                    pinTl.fromTo(subtitle, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'power2.out' }, `panel${i}+=0.3`);
-                }
-
-                // EXIT (Hold for a bit, then fade out, except for the last panel which stays)
-                if (i !== panels.length - 1) {
-                    pinTl.to([title, subtitle], { opacity: 0, y: -40, duration: 0.8, ease: 'power2.in' }, `panel${i}+=2.5`);
-                    pinTl.set(panel, { opacity: 0 }); // hide container
-                } else {
-                    // Last panel just holds space at the end
-                    pinTl.to({}, { duration: 1 });
-                }
+                        if (i !== panels.length - 1) {
+                            pinTl.to([title, subtitle], { opacity: 0, y: -40, duration: 0.8, ease: 'power2.in' }, `panel${i}+=2.5`);
+                            pinTl.set(panel, { opacity: 0 });
+                        } else {
+                            pinTl.to({}, { duration: 1 });
+                        }
+                    });
+                },
+                '(max-width: 767px)': () => {
+                    gsap.set('.showcase-panel', { opacity: 1, position: 'relative', minHeight: 'auto' });
+                    gsap.utils.toArray('.showcase-panel').forEach((panel) => {
+                        gsap.from(panel as Element, {
+                            opacity: 0,
+                            y: 24,
+                            scrollTrigger: {
+                                trigger: panel as Element,
+                                start: 'top 90%',
+                                toggleActions: 'play none none reverse',
+                            },
+                        });
+                    });
+                },
             });
 
         }, sectionRef);
@@ -220,7 +226,7 @@ export default function Signal() {
     );
 
     return (
-        <section className="signal-section" ref={sectionRef}>
+        <section className="signal-section" ref={sectionRef} id="signal" aria-label="AI automation services">
             <div className="signal-scan-line" />
 
             {/* Dotted Vertical Thread across entire component */}
@@ -276,9 +282,8 @@ export default function Signal() {
                     {/* PANEL 1 */}
                     <div className="showcase-panel showcase-panel-1">
 <div className="service-title-container">
-  <h2 className="service-title" data-seo-keywords="AI automation systems, autonomous workflows, business automation">AI Automation Systems</h2>
-  <h2 className="service-title-highlight">AI Automation Systems</h2>
-  <div style={{display: 'none'}}>Keywords: AI automation systems, end-to-end AI workflows, autonomous business operations</div>
+  <h2 className="service-title">AI Automation Systems</h2>
+  <h2 className="service-title-highlight" aria-hidden="true">AI Automation Systems</h2>
                         </div>
                         <div className="service-subtitle">End-to-end workflows that operate without you.</div>
                     </div>
@@ -286,9 +291,8 @@ export default function Signal() {
                     {/* PANEL 2 */}
                     <div className="showcase-panel showcase-panel-2">
                         <div className="service-title-container">
-                            <h2 className="service-title" data-seo-keywords="AI voice agents, calling agents, voice AI, lead qualification, phone automation">AI Voice &<br />Calling Agents</h2>
-  <div style={{display:'none'}}>AI voice calling agents, automated phone systems, lead qualification AI, 24/7 call answering</div>
-                            <h2 className="service-title-highlight">AI Voice &<br />Calling Agents</h2>
+                            <h2 className="service-title">AI Voice &amp; Calling Agents</h2>
+                            <h2 className="service-title-highlight" aria-hidden="true">AI Voice &amp; Calling Agents</h2>
                         </div>
                         <div className="service-subtitle">Every call answered. Every lead qualified. Always.</div>
                     </div>
@@ -296,9 +300,8 @@ export default function Signal() {
                     {/* PANEL 3 */}
                     <div className="showcase-panel showcase-panel-3">
                         <div className="service-title-container">
-                            <h2 className="service-title" data-seo-keywords="conversational AI, chatbots, intelligent conversations, AI chat">Conversational AI</h2>
-  <div style={{display:'none'}}>Conversational AI systems, natural language processing, intelligent chat agents</div>
-                            <h2 className="service-title-highlight">Conversational AI</h2>
+                            <h2 className="service-title">Conversational AI</h2>
+                            <h2 className="service-title-highlight" aria-hidden="true">Conversational AI</h2>
                         </div>
                         <div className="why-matters-block">
                             <p>DareX AI was built for one reason. Most businesses don't have a technology problem. They have a systems problem.</p>
@@ -313,9 +316,8 @@ export default function Signal() {
                     {/* PANEL 4 */}
                     <div className="showcase-panel showcase-panel-4">
                         <div className="service-title-container">
-                            <h2 className="service-title" data-seo-keywords="sales automation, marketing automation, cold outreach, lead generation AI">Sales & Marketing<br />Automation</h2>
-  <div style={{display:'none'}}>Sales marketing automation, cold email outreach, automated lead nurturing</div>
-                            <h2 className="service-title-highlight">Sales & Marketing<br />Automation</h2>
+                            <h2 className="service-title">Sales &amp; Marketing Automation</h2>
+                            <h2 className="service-title-highlight" aria-hidden="true">Sales &amp; Marketing Automation</h2>
                         </div>
                         <div className="service-subtitle">From cold outreach to closed deal. Automated.</div>
                     </div>
@@ -323,9 +325,8 @@ export default function Signal() {
                     {/* PANEL 5 */}
                     <div className="showcase-panel showcase-panel-5">
                         <div className="service-title-container">
-                            <h2 className="service-title" data-seo-keywords="SaaS development, app development, scalable platforms, AI apps">SaaS & App Development</h2>
-  <div style={{display:'none'}}>SaaS application development, custom software, scalable AI platforms</div>
-                            <h2 className="service-title-highlight">SaaS & App Development</h2>
+                            <h2 className="service-title">SaaS &amp; App Development</h2>
+                            <h2 className="service-title-highlight" aria-hidden="true">SaaS &amp; App Development</h2>
                         </div>
                         <div className="service-subtitle">Products that ship. Platforms that scale.</div>
                     </div>
@@ -333,9 +334,8 @@ export default function Signal() {
                     {/* PANEL 6 */}
                     <div className="showcase-panel showcase-panel-6">
                         <div className="service-title-container">
-                            <h2 className="service-title" data-seo-keywords="custom LLM, LLM infrastructure, large language models, AI models">Custom LLM<br />Infrastructure</h2>
-  <div style={{display:'none'}}>Custom large language model infrastructure, fine-tuned LLMs, enterprise AI models</div>
-                            <h2 className="service-title-highlight">Custom LLM<br />Infrastructure</h2>
+                            <h2 className="service-title">Custom LLM Infrastructure</h2>
+                            <h2 className="service-title-highlight" aria-hidden="true">Custom LLM Infrastructure</h2>
                         </div>
                         <div className="closing-statement">
                             Every system above has been deployed for real businesses. Yours could be next.
