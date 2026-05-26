@@ -65,7 +65,7 @@ export default function HowItWorks() {
 
                 {/* 1 */}
                 <section className="hiw-intro">
-                    <h1>From Lead to Sale</h1>
+                    <h1 data-seo-keywords="lead to sale automation, AI lead conversion">From Lead to Sale</h1>
                     <h2>
                         How Dare XAI Works: A simple 3-step process that turns your
                         missed calls and delayed responses into automated, intelligent

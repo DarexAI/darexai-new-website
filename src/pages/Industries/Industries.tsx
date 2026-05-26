@@ -211,7 +211,8 @@ export default function Industries() {
 
             {/* DAREX BRAND LOGO OVERLAY */}
             <div className="industries-logo" ref={textRef}>
-                <h1 className="industries-title">DAREX AI.</h1>
+                <h1 className="industries-title" data-seo-keywords="Darex AI industries, AI cross-industry, real estate AI, HVAC AI">DAREX AI.</h1>
+  <div style={{display:'none'}}>Darex AI serves industries: real estate, HVAC, e-commerce, government, franchises, restaurants, coaching with AI automation</div>
                 <span className="industries-subtitle">Cross-Industry Dominance</span>
             </div>
 

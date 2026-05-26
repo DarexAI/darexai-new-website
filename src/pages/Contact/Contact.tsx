@@ -14,7 +14,7 @@ export default function Contact() {
             {/* LEFT EDITORIAL COLUMN */}
             <div className="contact-left">
                 <div className="contact-header-block">
-                    <h1>LET'S BUILD<br />THE FUTURE<br />TOGETHER</h1>
+                    <h1 data-seo-keywords="contact Darex AI, AI consultation, build AI future">LET'S BUILD<br />THE FUTURE<br />TOGETHER</h1>
                     <p className="contact-subtitle">
                         Ready to transform your business with AI automation? Our experts are here to help you design the perfect solution for your unique needs.
                     </p>

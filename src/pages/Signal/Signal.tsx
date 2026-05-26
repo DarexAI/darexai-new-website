@@ -275,9 +275,10 @@ export default function Signal() {
 
                     {/* PANEL 1 */}
                     <div className="showcase-panel showcase-panel-1">
-                        <div className="service-title-container">
-                            <h2 className="service-title">AI Automation Systems</h2>
-                            <h2 className="service-title-highlight">AI Automation Systems</h2>
+<div className="service-title-container">
+  <h2 className="service-title" data-seo-keywords="AI automation systems, autonomous workflows, business automation">AI Automation Systems</h2>
+  <h2 className="service-title-highlight">AI Automation Systems</h2>
+  <div style={{display: 'none'}}>Keywords: AI automation systems, end-to-end AI workflows, autonomous business operations</div>
                         </div>
                         <div className="service-subtitle">End-to-end workflows that operate without you.</div>
                     </div>
@@ -285,7 +286,8 @@ export default function Signal() {
                     {/* PANEL 2 */}
                     <div className="showcase-panel showcase-panel-2">
                         <div className="service-title-container">
-                            <h2 className="service-title">AI Voice &<br />Calling Agents</h2>
+                            <h2 className="service-title" data-seo-keywords="AI voice agents, calling agents, voice AI, lead qualification, phone automation">AI Voice &<br />Calling Agents</h2>
+  <div style={{display:'none'}}>AI voice calling agents, automated phone systems, lead qualification AI, 24/7 call answering</div>
                             <h2 className="service-title-highlight">AI Voice &<br />Calling Agents</h2>
                         </div>
                         <div className="service-subtitle">Every call answered. Every lead qualified. Always.</div>
@@ -294,7 +296,8 @@ export default function Signal() {
                     {/* PANEL 3 */}
                     <div className="showcase-panel showcase-panel-3">
                         <div className="service-title-container">
-                            <h2 className="service-title">Conversational AI</h2>
+                            <h2 className="service-title" data-seo-keywords="conversational AI, chatbots, intelligent conversations, AI chat">Conversational AI</h2>
+  <div style={{display:'none'}}>Conversational AI systems, natural language processing, intelligent chat agents</div>
                             <h2 className="service-title-highlight">Conversational AI</h2>
                         </div>
                         <div className="why-matters-block">
@@ -310,7 +313,8 @@ export default function Signal() {
                     {/* PANEL 4 */}
                     <div className="showcase-panel showcase-panel-4">
                         <div className="service-title-container">
-                            <h2 className="service-title">Sales & Marketing<br />Automation</h2>
+                            <h2 className="service-title" data-seo-keywords="sales automation, marketing automation, cold outreach, lead generation AI">Sales & Marketing<br />Automation</h2>
+  <div style={{display:'none'}}>Sales marketing automation, cold email outreach, automated lead nurturing</div>
                             <h2 className="service-title-highlight">Sales & Marketing<br />Automation</h2>
                         </div>
                         <div className="service-subtitle">From cold outreach to closed deal. Automated.</div>
@@ -319,7 +323,8 @@ export default function Signal() {
                     {/* PANEL 5 */}
                     <div className="showcase-panel showcase-panel-5">
                         <div className="service-title-container">
-                            <h2 className="service-title">SaaS & App Development</h2>
+                            <h2 className="service-title" data-seo-keywords="SaaS development, app development, scalable platforms, AI apps">SaaS & App Development</h2>
+  <div style={{display:'none'}}>SaaS application development, custom software, scalable AI platforms</div>
                             <h2 className="service-title-highlight">SaaS & App Development</h2>
                         </div>
                         <div className="service-subtitle">Products that ship. Platforms that scale.</div>
@@ -328,7 +333,8 @@ export default function Signal() {
                     {/* PANEL 6 */}
                     <div className="showcase-panel showcase-panel-6">
                         <div className="service-title-container">
-                            <h2 className="service-title">Custom LLM<br />Infrastructure</h2>
+                            <h2 className="service-title" data-seo-keywords="custom LLM, LLM infrastructure, large language models, AI models">Custom LLM<br />Infrastructure</h2>
+  <div style={{display:'none'}}>Custom large language model infrastructure, fine-tuned LLMs, enterprise AI models</div>
                             <h2 className="service-title-highlight">Custom LLM<br />Infrastructure</h2>
                         </div>
                         <div className="closing-statement">
