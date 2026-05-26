@@ -1,6 +1,7 @@
-import { Suspense } from 'react';
+import { Suspense, useState, type FormEvent } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { useGLTF, Float, Environment, Stage } from '@react-three/drei';
+import { submitContactForm } from '../../lib/submitContactForm';
 import './Contact.css';
 
 function Model() {
@@ -8,10 +9,70 @@ function Model() {
     return <primitive object={scene} />;
 }
 
+type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
+
+function validateEmail(email: string): boolean {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
 export default function Contact() {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [message, setMessage] = useState('');
+    const [status, setStatus] = useState<FormStatus>('idle');
+    const [feedback, setFeedback] = useState('');
+
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const trimmedName = name.trim();
+        const trimmedEmail = email.trim();
+        const trimmedMessage = message.trim();
+
+        if (!trimmedName || !trimmedEmail || !trimmedMessage) {
+            setStatus('error');
+            setFeedback('Please fill in your name, email, and message.');
+            return;
+        }
+
+        if (!validateEmail(trimmedEmail)) {
+            setStatus('error');
+            setFeedback('Please enter a valid email address.');
+            return;
+        }
+
+        if (trimmedMessage.length < 10) {
+            setStatus('error');
+            setFeedback('Please add a bit more detail in your message (at least 10 characters).');
+            return;
+        }
+
+        setStatus('submitting');
+        setFeedback('');
+
+        const result = await submitContactForm({
+            name: trimmedName,
+            email: trimmedEmail,
+            message: trimmedMessage,
+        });
+
+        if (result.ok) {
+            setStatus('success');
+            setFeedback(result.message);
+            setName('');
+            setEmail('');
+            setMessage('');
+            return;
+        }
+
+        setStatus('error');
+        setFeedback(result.message);
+    };
+
+    const isSubmitting = status === 'submitting';
+
     return (
         <section className="contact-magazine" id="contact">
-            {/* LEFT EDITORIAL COLUMN */}
             <div className="contact-left">
                 <div className="contact-header-block">
                     <h2>Let&apos;s Build the Future Together — Contact Darex AI</h2>
@@ -35,28 +96,83 @@ export default function Contact() {
 
                 <div className="contact-about-link">
                     <p>Want to learn more about who we are and what drives us?</p>
-                    <a href="#">READ ABOUT US →</a>
+                    <a href="https://www.linkedin.com/company/dare-xai/" target="_blank" rel="noreferrer">
+                        READ ABOUT US →
+                    </a>
                 </div>
             </div>
 
-            {/* RIGHT FORM COLUMN */}
             <div className="contact-right">
                 <div className="contact-form-block">
                     <h2>SEND US A MESSAGE</h2>
-                    <form className="magazine-form">
+                    <form className="magazine-form" onSubmit={handleSubmit} noValidate>
+                        {/* Honeypot — hidden from users, catches bots (Web3Forms) */}
+                        <input
+                            type="checkbox"
+                            name="botcheck"
+                            className="contact-honeypot"
+                            tabIndex={-1}
+                            autoComplete="off"
+                            aria-hidden="true"
+                        />
+
                         <div className="input-row">
-                            <label>FULL NAME *</label>
-                            <input type="text" placeholder="Enter your full name" />
+                            <label htmlFor="contact-name">FULL NAME *</label>
+                            <input
+                                id="contact-name"
+                                name="name"
+                                type="text"
+                                placeholder="Enter your full name"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                required
+                                autoComplete="name"
+                                disabled={isSubmitting}
+                            />
                         </div>
                         <div className="input-row">
-                            <label>EMAIL ADDRESS *</label>
-                            <input type="email" placeholder="your.email@company.com" />
+                            <label htmlFor="contact-email">EMAIL ADDRESS *</label>
+                            <input
+                                id="contact-email"
+                                name="email"
+                                type="email"
+                                placeholder="your.email@company.com"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                                autoComplete="email"
+                                disabled={isSubmitting}
+                            />
                         </div>
                         <div className="input-row textarea-row">
-                            <label>MESSAGE *</label>
-                            <textarea placeholder="Tell us about your project, challenges you're facing, and what you hope to achieve..."></textarea>
+                            <label htmlFor="contact-message">MESSAGE *</label>
+                            <textarea
+                                id="contact-message"
+                                name="message"
+                                placeholder="Tell us about your project, challenges you're facing, and what you hope to achieve..."
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                                required
+                                minLength={10}
+                                disabled={isSubmitting}
+                            />
                         </div>
-                        <button type="button" className="submit-btn">SEND MESSAGE</button>
+
+                        <div
+                            className={`form-feedback form-feedback--${status}`}
+                            role="status"
+                            aria-live="polite"
+                        >
+                            {feedback}
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="submit-btn"
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? 'SENDING…' : 'SEND MESSAGE'}
+                        </button>
                     </form>
                 </div>
 

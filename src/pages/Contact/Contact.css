@@ -175,6 +175,40 @@
     transform: scale(0.98);
 }
 
+.submit-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.contact-honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.form-feedback {
+    min-height: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.form-feedback--success {
+    color: #a8e6b8;
+}
+
+.form-feedback--error {
+    color: #ff8a8a;
+}
+
+.form-feedback--idle,
+.form-feedback--submitting {
+    color: transparent;
+}
+
 /* INFO BLOCK */
 .contact-info-block {
     padding: 60px;
@@ -261,7 +295,9 @@
 @media (max-width: 768px) {
     .contact-header-block,
     .contact-about-link,
-    .contact-right {
+    .contact-right,
+    .contact-form-block,
+    .contact-info-block {
         padding: 2rem 1.25rem;
     }
 
