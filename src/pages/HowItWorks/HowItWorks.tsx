@@ -39,7 +39,7 @@ export default function HowItWorks() {
                         start: "top top",
                         end: () => "+=" + (scroller.scrollWidth - window.innerWidth),
                         scrub: 1,
-                        onUpdate: (self) => {
+                        onUpdate: (self: ScrollTrigger) => {
                             if (progressCounterRef.current) {
                                 progressCounterRef.current.textContent = String(Math.round(self.progress * 100));
                             }
