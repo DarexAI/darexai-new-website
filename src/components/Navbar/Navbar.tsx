@@ -34,6 +34,7 @@ const NAV_LINKS: { href: string; id: string; label: string; isCta?: boolean }[] 
     { href: '#casestudies', id: 'casestudies', label: 'Work' },
     { href: '#industries', id: 'industries', label: 'Industries' },
     { href: '#howitworks', id: 'howitworks', label: 'Process' },
+    { href: '#waitlist', id: 'waitlist', label: 'AI Employee' },
     { href: '#contact', id: 'contact', label: 'Contact', isCta: true },
 ];
 

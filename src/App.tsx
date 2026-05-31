@@ -7,6 +7,8 @@ import TransitionSpacer from './pages/TransitionSpacer/TransitionSpacer'
 import Industries from './pages/Industries/Industries'
 import HowItWorks from './pages/HowItWorks/HowItWorks'
 import Contact from './pages/Contact/Contact'
+import RealEstateWaitlist from './pages/RealEstateWaitlist/RealEstateWaitlist'
+
 
 function App() {
   useEffect(() => {
@@ -42,6 +44,8 @@ function App() {
       <Industries />
       <TransitionSpacer text="WORKFLOWS ✕ AUTOMATION ✕ INTELLIGENCE" variant="belt" />
       <HowItWorks />
+      <TransitionSpacer text="EXCLUSIVE LAUNCH ✕ AI EMPLOYEE FOR REAL ESTATE" variant="belt" />
+      <RealEstateWaitlist />
       <TransitionSpacer variant="punchline" />
       <Contact />
     </main>

@@ -89,6 +89,13 @@ export default function Hero() {
   const ctaWrapRef = useRef<HTMLDivElement>(null);
   const tickerBarRef = useRef<HTMLDivElement>(null);
 
+  const handleScrollTo = (targetId: string) => {
+    const element = document.getElementById(targetId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   /* ── Stars (2D canvas) ────────────────────────────── */
   const initStars = useCallback(() => {
     const canvas = starsCanvasRef.current;
@@ -372,7 +379,10 @@ export default function Hero() {
 
         {/* CTA */}
         <div className="cta-wrap rising-element" ref={ctaWrapRef}>
-          <button className="cta-btn">
+          <button className="cta-btn primary" onClick={() => handleScrollTo('waitlist')}>
+            Join AI Waitlist <span className="arrow">→</span>
+          </button>
+          <button className="cta-btn secondary" onClick={() => handleScrollTo('contact')}>
             Start a Project <span className="arrow">→</span>
           </button>
         </div>
